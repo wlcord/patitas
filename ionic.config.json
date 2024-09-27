@@ -1,0 +1,7 @@
+{
+  "name": "patitas",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
