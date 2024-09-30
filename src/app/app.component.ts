@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { NavController } from '@ionic/angular';
+import { ParseService } from './services/parse.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +9,19 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {}
+  showToolbar = true;
+
+  constructor(private router: Router) {
+    this.router.events.subscribe((event: any) => {
+      if (event.url === '/login') {
+        this.showToolbar = false;
+      } else {
+        this.showToolbar = true;
+      }
+    });
+  }
+
+  ngOnInit() {
+    
+  }
 }

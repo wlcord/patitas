@@ -1,0 +1,44 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+<ion-grid>
+  <ion-row id="avatarp">
+    <ion-avatar id="avatarim">
+      <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+    </ion-avatar>
+  </ion-row>
+  <ion-row id="inputp">
+    <ion-item>
+      <ion-input label="Nombre" label-placement="floating" ></ion-input>
+    </ion-item>
+    
+    <ion-item>
+      <ion-input label="Apellido" label-placement="floating" ></ion-input>
+    </ion-item>
+  
+    <ion-item>
+      <ion-input label="Direccion" label-placement="floating" ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Email" label-placement="floating" type="email" ></ion-input>
+    </ion-item>
+    
+    <ion-item>
+      <ion-input label="Telefono" label-placement="floating" type="tel" ></ion-input>
+    </ion-item>
+  </ion-row>
+  <ion-row id="botonconfirmar">
+    <ion-button id="confirmar1" color="success" >
+      Guardar
+    </ion-button>
+    <ion-alert
+    trigger="confirmar1" header="¿Esta seguro?" [buttons]="alertButtons">
+    </ion-alert>
+  </ion-row>
+</ion-grid>
+</ion-content>
