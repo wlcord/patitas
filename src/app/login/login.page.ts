@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
-import { ParseService } from '../services/parse.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,11 +11,14 @@ import { ParseService } from '../services/parse.service';
 export class LoginPage implements OnInit {
   loginForm: FormGroup;
   loginError!: string;
+  email: string = '';
+  password: string = '';
 
   constructor(
     private formBuilder: FormBuilder,
     private navCtrl: NavController,
-    private parseService: ParseService
+    private authService: AuthService
+    
   ) {
     // Inicializa loginForm en el constructor
     this.loginForm = this.formBuilder.group({
@@ -28,18 +31,9 @@ export class LoginPage implements OnInit {
     // Si lo prefieres, puedes dejar el código aquí, pero no es necesario
   }
 
-  async Login() {
-    const { email, password } = this.loginForm.value;
-    try {
-      const user = await this.parseService.loginCustom(email, password);
-      console.log('Usuario autenticado correctamente', user);
-
-      // Almacena el nombre en una variable
-      localStorage.setItem('username', user.get('Nombre'));
-      // Redirige a la página principal después de la autenticación exitosa
-      this.navCtrl.navigateRoot('/tabs/tab1');
-    } catch (error) {
-      this.loginError = 'Error al iniciar sesión: ', error;
-    }
+  login() {
+    this.authService.login(this.email, this.password);
   }
+
+  
 }

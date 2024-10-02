@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { ParseService } from '../services/parse.service';
+
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-tabs',
@@ -9,27 +10,22 @@ import { Router } from '@angular/router';
   styleUrls: ['tabs.page.scss']
 })
 export class TabsPage {
-  isLoggedIn: boolean = false;
-  username: string | null = null;
+  Nombre: string | null = null; // Almacena el nombre de usuario
+  
 
   constructor(
-    private parseService: ParseService,
     private navCtrl: NavController,
-    private router: Router
+    private authService: AuthService
   ) {
-    this.username = localStorage.getItem('username'); // Obtén el nombre de usuario
-
-    this.router.events.subscribe(() => {
-      this.username = localStorage.getItem('username'); // Actualiza el nombre al navegar
-    });
+  
   }
 
   ngOnInit() {
-    this.checkLoginStatus();
+    this.loadUserName();
   }
 
-  checkLoginStatus() {
-    this.isLoggedIn = this.parseService.isUserLoggedIn();
+  loadUserName() {
+    this.Nombre = localStorage.getItem('Nombre'); // Obtén el nombre desde localStorage
   }
 
   onLogin() {
@@ -39,13 +35,11 @@ export class TabsPage {
 
   async onLogout() {
     try {
-      await this.parseService.logout();
-      this.isLoggedIn = false;
-      localStorage.removeItem('username');
-      this.navCtrl.navigateRoot('/login');  // Redirigir a la página principal
+      await this.authService.logout(); // Usa el método de logout de tu servicio de autenticación
+      localStorage.removeItem('Nombre');
+      this.navCtrl.navigateRoot('/login');  // Redirigir a la página de login
     } catch (error) {
       console.log('Error al cerrar sesión:', error);
     }
   }
-
 }

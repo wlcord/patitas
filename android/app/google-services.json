@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "401237945072",
+    "project_id": "patitas-sanas-5f701",
+    "storage_bucket": "patitas-sanas-5f701.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:401237945072:android:8582ef216a859cebd17035",
+        "android_client_info": {
+          "package_name": "io.ionic.starter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAzGIeKJUinHjvvMr4o9HgjpzeH92VUME"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

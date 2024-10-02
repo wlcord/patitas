@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { ParseService } from './services/parse.service';
 import { Router } from '@angular/router';
 
 @Component({
