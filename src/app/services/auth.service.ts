@@ -29,6 +29,7 @@ export class AuthService {
           if (data.Password === password) {
             console.log('Login exitoso');
             localStorage.setItem('Nombre', data.Nombre);
+            localStorage.setItem('Rut', data.Rut)
             this.router.navigate(['/tabs/tab1']); // Redirige a la página principal
             loginSuccess = true;
           }
@@ -49,8 +50,10 @@ export class AuthService {
   async logout() {
     try {
       // Limpiar el localStorage
-      localStorage.removeItem('username');
+      localStorage.removeItem('Nombre');
+      localStorage.removeItem('Rut');
       console.log('Logout exitoso');
+      // Vaciar los campos del formulario
       this.router.navigate(['/login']); // Redirigir a la página de login
     } catch (error) {
       console.error('Error al cerrar sesión', error);
@@ -63,7 +66,7 @@ export class AuthService {
   }
 
 
-  // Tipado explícito del tipo de datos que esperas obtener de la colección
+
   async obtenerdatos(collectionName: string): Promise<any[]> {
     try {
       // Obtiene todos los documentos de la colección especificada

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
+import { RegistrarService } from '../services/registrar.service'
 
 @Component({
   selector: 'app-login',
@@ -13,11 +14,20 @@ export class LoginPage implements OnInit {
   loginError!: string;
   email: string = '';
   password: string = '';
+  dueno = {
+    Nombre: '',
+    Apellido: '',
+    Email: '',
+    Password:'',
+    Direccion: '',
+    Rut: ''
+  };
 
   constructor(
     private formBuilder: FormBuilder,
     private navCtrl: NavController,
-    private authService: AuthService
+    private authService: AuthService,
+    private RegistrarService: RegistrarService
     
   ) {
     // Inicializa loginForm en el constructor
@@ -35,5 +45,12 @@ export class LoginPage implements OnInit {
     this.authService.login(this.email, this.password);
   }
 
+  registrarDueno() {
+    this.RegistrarService.registrarDueño(this.dueno).then(() => {
+      console.log('Dueño registrado con éxito');
+    }).catch(error => {
+      console.error('Error al registrar el dueño:', error);
+    });
+  }
   
 }

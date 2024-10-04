@@ -16,4 +16,49 @@
   </ion-item>
 
   <ion-button expand="full" (click)="login()">Iniciar Sesión</ion-button>
+  <ion-button id="registro-usuario" >Registrar</ion-button>
+
+  <ion-modal #modal trigger="registro-usuario">
+    <ng-template>
+      <ion-content>
+        <ion-toolbar>
+          <ion-title>Registrar</ion-title>
+        </ion-toolbar>
+        <form (ngSubmit)="registrarDueno()">
+          <ion-item>
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input [(ngModel)]="dueno.Nombre" name="Nombre"></ion-input>
+          </ion-item>
+      
+          <ion-item>
+            <ion-label position="floating">Apellido</ion-label>
+            <ion-input [(ngModel)]="dueno.Apellido" name="Apellido"></ion-input>
+          </ion-item>
+      
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input [(ngModel)]="dueno.Email" name="Email"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <ion-input [(ngModel)]="dueno.Password" name="Password"></ion-input>
+          </ion-item>
+      
+          <ion-item>
+            <ion-label position="floating">Dirección</ion-label>
+            <ion-input [(ngModel)]="dueno.Direccion" name="Dirección"></ion-input>
+          </ion-item>
+      
+          <ion-item>
+            <ion-label position="floating">Rut</ion-label>
+            <ion-input [(ngModel)]="dueno.Rut" name="Rut"></ion-input>
+          </ion-item>
+      
+          <ion-button expand="full" type="submit" (click)="modal.dismiss()">Registrar</ion-button>
+          <ion-button expand="full" color="danger" (click)="modal.dismiss()">Cancelar</ion-button>
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>

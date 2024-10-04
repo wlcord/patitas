@@ -10,7 +10,7 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['tabs.page.scss']
 })
 export class TabsPage {
-  Nombre: string | null = null; // Almacena el nombre de usuario
+  Nombre: string = ''; // Almacena el nombre de usuario
   
 
   constructor(
@@ -25,7 +25,8 @@ export class TabsPage {
   }
 
   loadUserName() {
-    this.Nombre = localStorage.getItem('Nombre'); // Obtén el nombre desde localStorage
+    const Nombre = localStorage.getItem('Nombre');
+    this.Nombre = Nombre !== null ? Nombre : '';  // Obtén el nombre desde localStorage
   }
 
   onLogin() {
@@ -34,12 +35,6 @@ export class TabsPage {
   }
 
   async onLogout() {
-    try {
-      await this.authService.logout(); // Usa el método de logout de tu servicio de autenticación
-      localStorage.removeItem('Nombre');
-      this.navCtrl.navigateRoot('/login');  // Redirigir a la página de login
-    } catch (error) {
-      console.log('Error al cerrar sesión:', error);
-    }
+    await this.authService.logout(); // Usa el método de logout de tu servicio de autenticación
   }
 }

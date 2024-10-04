@@ -3,123 +3,81 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-searchbar show-clear-button="always" value="Buscar mascota"></ion-searchbar>
+<ion-content [fullscreen]="true" *ngIf="mascotas.length > 0">
+  <!-- <ion-searchbar show-clear-button="always" value="Buscar mascota"></ion-searchbar> -->
   
-  <ion-card color="light">
+  <ion-card *ngFor="let mascota of mascotas" color="light">
     <ion-card-header>
-      <ion-card-title>Nombre mascota</ion-card-title>
-      <ion-card-subtitle>Raza mascota</ion-card-subtitle>
+      <ion-card-title>{{ mascota.Nombre }}</ion-card-title>
+      <ion-card-subtitle>{{ mascota.Raza }}</ion-card-subtitle>
     </ion-card-header>
-  
+
     <ion-card-content>
-      <ion-button style="margin-left: 75%;">Ver más</ion-button>
-    </ion-card-content>
-  </ion-card>
-  <ion-card color="light">
-    <ion-card-header>
-      <ion-card-title>Card Title</ion-card-title>
-      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-    </ion-card-header>
-  
-    <ion-card-content>
-      <ion-button style="margin-left: 75%;">Ver más</ion-button>
-    </ion-card-content>
-  </ion-card>
-  <ion-card color="light">
-    <ion-card-header>
-      <ion-card-title>Card Title</ion-card-title>
-      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-    </ion-card-header>
-  
-    <ion-card-content>
-      <ion-button style="margin-left: 75%;">Ver más</ion-button>
-    </ion-card-content>
-  </ion-card>
-  <ion-card color="light">
-    <ion-card-header>
-      <ion-card-title>Card Title</ion-card-title>
-      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-    </ion-card-header>
-  
-    <ion-card-content>
-      <ion-button style="margin-left: 75%;">Ver más</ion-button>
-    </ion-card-content>
-  </ion-card>
-  <ion-card color="light">
-    <ion-card-header>
-      <ion-card-title>Card Title</ion-card-title>
-      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-    </ion-card-header>
-  
-    <ion-card-content>
-      <ion-button style="margin-left: 75%;">Ver más</ion-button>
-    </ion-card-content>
-  </ion-card>
-  <ion-card color="light">
-    <ion-card-header>
-      <ion-card-title>Card Title</ion-card-title>
-      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-    </ion-card-header>
-  
-    <ion-card-content>
-      <ion-button style="margin-left: 75%;">Ver más</ion-button>
+      Edad: {{ mascota.Edad }} <br />
+      Especie: {{ mascota.Especie }} <br />
+      Sexo: {{ mascota.Sexo }} <br />
+      Rut mascota: {{ mascota.Rut_mascota }} <br />
+
+      <ion-button style="margin-left: 75%;" >Ver más</ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>
+<ion-content *ngIf="mascotas.length === 0">
+  <p>No tienes mascotas registradas.</p>
+</ion-content>
 
 <ion-footer style="justify-content: right;">
-  <ion-button id="open-modal" color="tertiary" >Registrar mascota</ion-button>
+  <ion-button id="registro-mascota" color="tertiary" >Registrar mascota</ion-button>
 </ion-footer>
 
-<ion-modal #modal trigger="open-modal">
+<ion-modal #modal trigger="registro-mascota">
   <ng-template>
     <ion-content>
       <ion-toolbar>
-        <ion-title>Resgistrar</ion-title>
-        <ion-buttons slot="end">
-          <ion-button color="success" (click)="modal.dismiss()">Guardar</ion-button>
-        </ion-buttons>
+        <ion-title>Registrar</ion-title>
+        
       </ion-toolbar>
-      <ion-list>
+
+      <form (ngSubmit)="registrarMascota()">
         <ion-item>
-          <ion-input label="Nombre" label-placement="floating" ></ion-input>
+          <ion-input label="Nombre" [(ngModel)]="Mascota.Nombre" label-placement="floating" name="Nombre"></ion-input>
         </ion-item>
         
         <ion-item>
-          <ion-select aria-label="Especie" interface="popover" placeholder="Especie">
+          <ion-select aria-label="Especie" interface="popover" placeholder="Especie" [(ngModel)]="Mascota.Especie" name="Especie">
             <ion-select-option value="Gato">Gato</ion-select-option>
             <ion-select-option value="Perro">Perro</ion-select-option>
           </ion-select>
         </ion-item>
 
         <ion-item>
-          <ion-input label="Raza" label-placement="floating" ></ion-input>
+          <ion-input label="Raza" label-placement="floating" [(ngModel)]="Mascota.Raza" name="Raza"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input label="Color" label-placement="floating" ></ion-input>
+          <ion-input label="Color" label-placement="floating" [(ngModel)]="Mascota.Color" name="Color"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input label="Rut mascota" label-placement="floating" [(ngModel)]="Mascota.Rut_mascota" name="Rut mascota"></ion-input>
         </ion-item>
       
         <ion-item>
-          <ion-input label="Edad" label-placement="floating" ></ion-input>
-        </ion-item>
-        
-        <ion-item>
-          <ion-input label="Peso" label-placement="floating" ></ion-input>
+          <ion-input label="Edad" label-placement="floating" [(ngModel)]="Mascota.Edad" name="Edad"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-select aria-label="Sexo" interface="popover" placeholder="Selecionar sexo">
+          <ion-select aria-label="Sexo" interface="popover" placeholder="Selecionar sexo" [(ngModel)]="Mascota.Sexo" name="Sexo">
             <ion-select-option value="Macho">Macho</ion-select-option>
             <ion-select-option value="Hembra">Hembra</ion-select-option>
           </ion-select>
         </ion-item>
 
         <ion-item>
-          <ion-checkbox labelPlacement="start">Esterilizado</ion-checkbox>
+          <ion-checkbox labelPlacement="start" [(ngModel)]="Mascota.Esterilizado" name="Esterilizado">Esterilizado</ion-checkbox>
         </ion-item>
-      </ion-list>
+        <ion-button color="success" (click)="modal.dismiss()" type="submit">Guardar</ion-button>
+      </form>
     </ion-content>
   </ng-template>
 </ion-modal>
