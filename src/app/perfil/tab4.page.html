@@ -12,25 +12,19 @@
     </ion-avatar>
   </ion-row>
   <ion-row id="inputp">
-    <ion-item>
-      <ion-input label="Nombre" label-placement="floating" ></ion-input>
-    </ion-item>
-    
-    <ion-item>
-      <ion-input label="Apellido" label-placement="floating" ></ion-input>
-    </ion-item>
+    <ion-card *ngIf="usuario">
+      <ion-card-header>
+        <ion-card-title>Perfil del Usuario</ion-card-title>
+      </ion-card-header>
   
-    <ion-item>
-      <ion-input label="Direccion" label-placement="floating" ></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-input label="Email" label-placement="floating" type="email" ></ion-input>
-    </ion-item>
-    
-    <ion-item>
-      <ion-input label="Telefono" label-placement="floating" type="tel" ></ion-input>
-    </ion-item>
+      <ion-card-content>
+        <p><strong>Nombre:</strong> {{ usuario.Nombre }}</p>
+        <p><strong>Apellido:</strong> {{ usuario.Apellido }}</p>
+        <p><strong>Email:</strong> {{ usuario.Email }}</p>
+        <p><strong>Dirección:</strong> {{ usuario.Direccion }}</p>
+        <p><strong>RUT:</strong> {{ usuario.Rut }}</p>
+      </ion-card-content>
+    </ion-card>
   </ion-row>
   <ion-row id="botonconfirmar">
     <ion-button id="confirmar1" color="success" >

@@ -20,6 +20,7 @@ export class LoginPage implements OnInit {
     Email: '',
     Password:'',
     Direccion: '',
+    Telefono: '',
     Rut: ''
   };
 
@@ -38,7 +39,7 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-    // Si lo prefieres, puedes dejar el código aquí, pero no es necesario
+    
   }
 
   login() {

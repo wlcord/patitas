@@ -14,7 +14,7 @@ export class Tab1Page {
     
   }
 
-  async loadDocuments() {
+  async perfiles() {
     this.allDocuments = await this.firestoreService.obtenerdatos('Dueño_Mascota');
     console.log(this.allDocuments);
   }
