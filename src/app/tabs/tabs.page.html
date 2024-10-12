@@ -1,5 +1,8 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons (click)="refrescarPagina()">
+      <ion-icon name="refresh-outline"></ion-icon>
+    </ion-buttons>
     <ion-buttons slot="end">
       <ng-container *ngIf="Nombre; else loginButton">
         <span>Bienvenido, {{ Nombre }}</span>

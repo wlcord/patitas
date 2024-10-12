@@ -6,7 +6,7 @@
 <ion-content [fullscreen]="true" *ngIf="mascotas.length > 0">
   <!-- <ion-searchbar show-clear-button="always" value="Buscar mascota"></ion-searchbar> -->
   
-  <ion-card *ngFor="let mascota of mascotas" color="light">
+  <ion-card *ngFor="let mascota of mascotas" >
     <ion-card-header>
       <ion-card-title>{{ mascota.Nombre }}</ion-card-title>
       <ion-card-subtitle>{{ mascota.Raza }}</ion-card-subtitle>
@@ -26,9 +26,9 @@
   <p>No tienes mascotas registradas.</p>
 </ion-content>
 
-<ion-footer style="justify-content: right;">
-  <ion-button id="registro-mascota" color="tertiary" >Registrar mascota</ion-button>
-</ion-footer>
+
+<ion-button id="registro-mascota" color="tertiary" >Registrar mascota</ion-button>
+
 
 <ion-modal #modal trigger="registro-mascota">
   <ng-template>

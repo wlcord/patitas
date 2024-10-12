@@ -37,4 +37,9 @@ export class TabsPage {
   async onLogout() {
     await this.authService.logout(); // Usa el método de logout de tu servicio de autenticación
   }
+
+  refrescarPagina() {
+    window.location.reload();
+  }
+  
 }
