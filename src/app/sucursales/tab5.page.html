@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Veterinarias</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let veterinaria of veterinarias">
+    <ion-card-header>
+      <ion-card-title>{{ veterinaria.nombre }}</ion-card-title>
+      <ion-card-subtitle>{{ veterinaria.direccion }}</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      Teléfono: {{ veterinaria.telefono }} <br>
+      Dirección: {{ veterinaria.direccion }}
+
+      <ion-button (click)="abrirEnGoogleMaps(veterinaria.lat, veterinaria.lng)" style="margin-left: 75%;">
+        Ver en el mapa
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
