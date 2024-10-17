@@ -44,14 +44,16 @@
         </ion-item>
         
         <ion-item>
-          <ion-select aria-label="Especie" interface="popover" placeholder="Especie" [(ngModel)]="Mascota.Especie" name="Especie">
+          <ion-select aria-label="Especie" interface="popover" placeholder="Especie" [(ngModel)]="Mascota.Especie" name="Especie" (ionChange)="actualizarRazas()">
             <ion-select-option value="Gato">Gato</ion-select-option>
             <ion-select-option value="Perro">Perro</ion-select-option>
           </ion-select>
         </ion-item>
-
+        
         <ion-item>
-          <ion-input label="Raza" label-placement="floating" [(ngModel)]="Mascota.Raza" name="Raza"></ion-input>
+          <ion-select aria-label="Raza" interface="popover" placeholder="Raza" [(ngModel)]="Mascota.Raza" name="Raza">
+            <ion-select-option *ngFor="let raza of razasDisponibles" [value]="raza">{{ raza }}</ion-select-option>
+          </ion-select>
         </ion-item>
 
         <ion-item>
@@ -59,11 +61,15 @@
         </ion-item>
 
         <ion-item>
-          <ion-input label="Rut mascota" label-placement="floating" [(ngModel)]="Mascota.Rut_mascota" name="Rut mascota"></ion-input>
+          <ion-input label="Identificador mascota" label-placement="floating" [(ngModel)]="Mascota.Identificador_mascota" name="Identificador_mascota"></ion-input>
         </ion-item>
       
         <ion-item>
-          <ion-input label="Edad" label-placement="floating" [(ngModel)]="Mascota.Edad" name="Edad"></ion-input>
+          <ion-input label="Años" label-placement="floating" type="number" [(ngModel)]="Mascota.Anos" name="Anos" (ionChange)="combinarEdad()"></ion-input>
+        </ion-item>
+        
+        <ion-item>
+          <ion-input label="Meses" label-placement="floating" type="number" [(ngModel)]="Mascota.Meses" name="Meses" (ionChange)="combinarEdad()"></ion-input>
         </ion-item>
 
         <ion-item>

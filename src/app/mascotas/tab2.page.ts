@@ -12,14 +12,22 @@ export class Tab2Page implements OnInit {
   Mascota = {
     Nombre: '',
     Edad: '',
+    Anos: 0,
+    Meses: 0,
     Raza: '',
     Especie: '',
     Sexo: '',
     Color: '',
     Esterilizado: '',
-    Rut_mascota: '',
-    Rut_dueño: ''
+    Identificador_mascota: '',
+    Rut_dueño: '',
+    fechaRegistro: ''
   }
+
+  razasPerro = ['Labrador', 'Pastor Alemán', 'Bulldog francés', 'Golden Retriever', 'Husky siberiano', 'Chihuahua', 'Pit bull terrier americano', 'Beagle', 'Mastín', 'Dóberman', 'Rottweiler', 'Mestizo (Quiltro)'];
+  razasGato = ['Persa', 'Siamés', 'Bengalí', 'Sphynx', 'Azul ruso', 'Angora', 'Siberiano', 'Maine Coon', 'Bombay', 'Curl americano', 'Ragdoll'];
+  razasDisponibles: string[] = [];
+
 
   constructor(
     private RegistrarService: RegistrarService
@@ -34,7 +42,28 @@ export class Tab2Page implements OnInit {
     this.obtenerMascotas();
   }
 
+  actualizarRazas() {
+    if (this.Mascota.Especie === 'Perro') {
+      this.razasDisponibles = this.razasPerro;
+    } else if (this.Mascota.Especie === 'Gato') {
+      this.razasDisponibles = this.razasGato;
+    } else {
+      this.razasDisponibles = []; // Si no se selecciona una especie válida, no mostrar razas
+    }
+  }
+
+  combinarEdad() {
+    const totalMeses = this.Mascota.Anos * 12 + this.Mascota.Meses;
+    this.Mascota.Edad = `${this.Mascota.Anos} años y ${this.Mascota.Meses} meses`;
+    console.log(`Edad en meses totales: ${totalMeses}`); // Si necesitas guardar en meses totales
+  }
+
   registrarMascota() {
+    // Obtiene la fecha actual
+    const fechaActual = new Date();
+
+    // Agrega la fecha actual
+    this.Mascota.fechaRegistro = fechaActual.toISOString();
     this.RegistrarService.registrarMascota(this.Mascota).then(() => {
       console.log('Mascota registrado con éxito');
     }).catch(error => {
@@ -43,7 +72,6 @@ export class Tab2Page implements OnInit {
   }
 
   obtenerMascotas() {
-    // Usar el servicio para obtener las mascotas por el RUT del dueño
     this.RegistrarService.obtenerMascotasPorDueño(this.rut_Dueño).subscribe((data: any) => {
       this.mascotas = data.map((e: any) => {
         return {
