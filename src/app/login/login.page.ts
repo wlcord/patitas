@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { RegistrarService } from '../services/registrar.service'
 
 @Component({
@@ -12,23 +14,20 @@ import { RegistrarService } from '../services/registrar.service'
 export class LoginPage implements OnInit {
   loginForm: FormGroup;
   loginError!: string;
+  nombre: string = '';
+  apellido: string = '';
   email: string = '';
   password: string = '';
-  dueno = {
-    Nombre: '',
-    Apellido: '',
-    Email: '',
-    Password:'',
-    Direccion: '',
-    Telefono: '',
-    Rut: ''
-  };
+  direccion: string = '';
+  telefono: string = '';
+  rut: string = '';
+  
 
   constructor(
     private formBuilder: FormBuilder,
-    private navCtrl: NavController,
     private authService: AuthService,
-    private RegistrarService: RegistrarService
+    private afAuth: AngularFireAuth,
+    private firestore: AngularFirestore,
     
   ) {
     // Inicializa loginForm en el constructor
@@ -46,12 +45,30 @@ export class LoginPage implements OnInit {
     this.authService.login(this.email, this.password);
   }
 
-  registrarDueno() {
-    this.RegistrarService.registrarDueño(this.dueno).then(() => {
-      console.log('Dueño registrado con éxito');
-    }).catch(error => {
-      console.error('Error al registrar el dueño:', error);
-    });
-  }
+  registrarUsuario() {
+    if (this.email && this.password) {
+      this.afAuth.createUserWithEmailAndPassword(this.email, this.password).then((userCredential) => {
+        const uid = userCredential.user?.uid;
+
+        if (uid) {
+          this.firestore.collection('Dueño_Mascota').doc(uid).set({
+            nombre: this.nombre,
+            apellido: this.apellido,
+            email: this.email,
+            password: this.password,
+            direccion: this.direccion,
+            telefono: this.telefono,
+            rut: this.rut
+          }).then(() => {
+            console.log('Usuario registrado y datos guardados en Firestore');
+          }).catch((error) => {
+            console.error('Error al guardar los datos del usuario:', error);
+          });
+        }
+      }).catch((error) => {
+        console.error('Error al registrar usuario:', error);
+      });
+    }
+}
   
 }

@@ -4,7 +4,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" *ngIf="mascotas.length > 0">
-  <!-- <ion-searchbar show-clear-button="always" value="Buscar mascota"></ion-searchbar> -->
+  <!-- <ion-searchbar show-clear-button="always" value="Buscar mascota"></ion-searchbar> 'agregar funcionalidad al searchbar' -->
   
   <ion-card *ngFor="let mascota of mascotas" >
     <ion-card-header>
@@ -16,9 +16,9 @@
       Edad: {{ mascota.Edad }} <br />
       Especie: {{ mascota.Especie }} <br />
       Sexo: {{ mascota.Sexo }} <br />
-      Rut mascota: {{ mascota.Rut_mascota }} <br />
+      Identificador mascota: {{ mascota.Identificador_mascota }} <br />
 
-      <ion-button style="margin-left: 75%;" >Ver más</ion-button>
+      <ion-button style="margin-left: 75%;" >Ver más</ion-button> <!-- agregar funcion al boton de ver mas o eliminar -->
     </ion-card-content>
   </ion-card>
 </ion-content>

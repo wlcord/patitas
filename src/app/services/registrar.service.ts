@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Observable  } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RegistrarService {
 
-  constructor(private firestore: AngularFirestore, private router: Router) { }
+  constructor(
+    private firestore: AngularFirestore, 
+    private router: Router,
+    private afAuth: AngularFireAuth) { }
 
   // Método para registrar dueño de mascota
   registrarDueño(datosDueño: any) {
@@ -20,10 +25,5 @@ export class RegistrarService {
     return this.firestore.collection('Mascota').add(datosMascota);
   }
 
-  // Método para obtener mascotas por RUT del dueño
-  obtenerMascotasPorDueño(rutDueño: string) {
-    return this.firestore
-      .collection('Mascota', ref => ref.where('Rut_dueño', '==', rutDueño))
-      .snapshotChanges();
-  }
+  
 }

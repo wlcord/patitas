@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { FirebaseService } from '../services/firebase.service'
 import { RegistrarService } from '../services/registrar.service';
+import { AuthService } from '../services/auth.service';
+
+
 
 @Component({
   selector: 'app-tab2',
@@ -30,17 +34,21 @@ export class Tab2Page implements OnInit {
 
 
   constructor(
-    private RegistrarService: RegistrarService
+    private RegistrarService: RegistrarService,
+    private AuthService: AuthService,
   ) {}
 
-  ngOnInit(): void {
-    const rutDueño = localStorage.getItem('Rut');
-    this.Mascota.Rut_dueño = rutDueño ? rutDueño : '';
-    
-    const rut = localStorage.getItem('Rut');
-    this.rut_Dueño = rut !== null ? rut : '';  
-    this.obtenerMascotas();
+   async ngOnInit() {
+    try {
+      this.mascotas = await this.AuthService.getMascotas();
+      console.log('Mascotas obtenidas:', this.mascotas);
+    } catch (error) {
+      console.error('Error al obtener las mascotas:', error);
+    }
   }
+
+  
+
 
   actualizarRazas() {
     if (this.Mascota.Especie === 'Perro') {
@@ -71,16 +79,5 @@ export class Tab2Page implements OnInit {
     });
   }
 
-  obtenerMascotas() {
-    this.RegistrarService.obtenerMascotasPorDueño(this.rut_Dueño).subscribe((data: any) => {
-      this.mascotas = data.map((e: any) => {
-        return {
-          id: e.payload.doc.id,
-          ...e.payload.doc.data() // Obtener los datos de la mascota
-        };
-      });
-      console.log(this.mascotas)
-    });
-  }
 
 }

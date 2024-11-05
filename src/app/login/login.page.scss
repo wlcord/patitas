@@ -1,0 +1,33 @@
+ion-card {
+    margin-top: 65%;
+}
+
+#css-login {
+  justify-content: center;
+  background-color: rgba(255, 42, 0, 0.442);  
+  padding-top: 20px;
+}
+
+#registro-usuario {
+    --background: rgba(0, 255, 255, 0.714);
+    justify-items: end;
+}
+
+#login-usuario {
+    --background: rgba(0, 255, 255, 0.714);
+}
+
+#label-login1 {
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+    font-weight: bold;
+    --background: rgba(255, 42, 0, 0.7);
+}
+
+#label-login2{
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+    font-weight: bold;
+    --background: rgb(255, 42, 0, 0.7);
+}
+

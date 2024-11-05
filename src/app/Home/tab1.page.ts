@@ -10,7 +10,6 @@ const { Calendar } = Plugins;
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
-  allDocuments: any[] = [];
   Titulo: string = '';
   Lugar: string = '';
   Nota: string = '';
@@ -21,10 +20,6 @@ export class Tab1Page {
     
   }
 
-  async perfiles() {
-    this.allDocuments = await this.firestoreService.obtenerdatos('Dueño_Mascota');
-    console.log(this.allDocuments);
-  }
 
   async agregarEvento() {
     const start = new Date(this.Fechainicio);

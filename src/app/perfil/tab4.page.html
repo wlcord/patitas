@@ -8,7 +8,7 @@
 <ion-grid>
   <ion-row id="avatarp">
     <ion-avatar id="avatarim">
-      <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+      <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" /> <!-- agregar funcion para colocar fotos de perfil con guardado el storage de firebase -->
     </ion-avatar>
   </ion-row>
   <ion-row id="inputp">
@@ -16,17 +16,16 @@
       <ion-card-header>
         <ion-card-title>Perfil del Usuario</ion-card-title>
       </ion-card-header>
-  
       <ion-card-content>
-        <p><strong>Nombre:</strong> {{ usuario.Nombre }}</p>
-        <p><strong>Apellido:</strong> {{ usuario.Apellido }}</p>
-        <p><strong>Email:</strong> {{ usuario.Email }}</p>
-        <p><strong>Dirección:</strong> {{ usuario.Direccion }}</p>
-        <p><strong>RUT:</strong> {{ usuario.Rut }}</p>
+        <p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
+        <p><strong>Apellido:</strong> {{ usuario.apellido }}</p>
+        <p><strong>Email:</strong> {{ usuario.email }}</p>
+        <p><strong>Dirección:</strong> {{ usuario.direccion }}</p>
+        <p><strong>RUT:</strong> {{ usuario.rut }}</p>
       </ion-card-content>
     </ion-card>
   </ion-row>
-  <ion-row id="botonconfirmar">
+  <ion-row id="botonconfirmar">  <!-- agregar funcion de editar datos del usuario -->
     <ion-button id="confirmar1" color="success" >
       Guardar
     </ion-button>

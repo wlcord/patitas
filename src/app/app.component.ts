@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
 export class AppComponent {
   showToolbar = true;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private afAuth: AngularFireAuth) {
     this.router.events.subscribe((event: any) => {
       if (event.url === '/login') {
         this.showToolbar = false;

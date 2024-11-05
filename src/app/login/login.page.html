@@ -3,20 +3,29 @@
     <ion-title></ion-title>
   </ion-toolbar>
 </ion-header>
-
+<!-- agregar un card y cambio de colores para posibles metodos de login adicional -->
 <ion-content>
-  <ion-item>
-    <ion-label position="floating">Email</ion-label>
-    <ion-input [(ngModel)]="email"></ion-input>
-  </ion-item>
+  <ion-card >
+    <ion-card-content id="css-login">
+      <form (ngSubmit)="login()">
+        <ion-item id="label-login1">
+          <ion-label position="floating">Correo Electrónico</ion-label>
+          <ion-input [(ngModel)]="email" name="email" type="email" required></ion-input>
+        </ion-item>
+    
+        <ion-item id="label-login2">
+          <ion-label position="floating">Contraseña</ion-label>
+          <ion-input [(ngModel)]="password" name="password" type="password" required></ion-input>
+        </ion-item>
 
-  <ion-item>
-    <ion-label position="floating">Password</ion-label>
-    <ion-input type="password" [(ngModel)]="password"></ion-input>
-  </ion-item>
-
-  <ion-button expand="full" (click)="login()">Iniciar Sesión</ion-button>
-  <ion-button id="registro-usuario" >Registrar</ion-button>
+          <ion-button id="login-usuario" type="submit">Iniciar Sesión</ion-button>
+          <ion-button id="registro-usuario">Registrar</ion-button>
+      </form>
+    
+      
+    </ion-card-content>
+  </ion-card>
+  
 
   <ion-modal #modal trigger="registro-usuario">
     <ng-template>
@@ -24,35 +33,40 @@
         <ion-toolbar>
           <ion-title>Registrar</ion-title>
         </ion-toolbar>
-        <form (ngSubmit)="registrarDueno()">
+        <form (ngSubmit)="registrarUsuario()">
           <ion-item>
             <ion-label position="floating">Nombre</ion-label>
-            <ion-input [(ngModel)]="dueno.Nombre" name="Nombre"></ion-input>
+            <ion-input [(ngModel)]="nombre" name="nombre" required></ion-input>
           </ion-item>
       
           <ion-item>
             <ion-label position="floating">Apellido</ion-label>
-            <ion-input [(ngModel)]="dueno.Apellido" name="Apellido"></ion-input>
+            <ion-input [(ngModel)]="apellido" name="apellido" required></ion-input>
           </ion-item>
       
           <ion-item>
             <ion-label position="floating">Email</ion-label>
-            <ion-input [(ngModel)]="dueno.Email" name="Email"></ion-input>
+            <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
+          </ion-item>
+      
+          <ion-item>
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
           </ion-item>
 
           <ion-item>
-            <ion-label position="floating">Password</ion-label>
-            <ion-input [(ngModel)]="dueno.Password" name="Password"></ion-input>
-          </ion-item>
-      
-          <ion-item>
             <ion-label position="floating">Dirección</ion-label>
-            <ion-input [(ngModel)]="dueno.Direccion" name="Dirección"></ion-input>
+            <ion-input [(ngModel)]="direccion" name="direccion" required></ion-input>
           </ion-item>
-      
+
           <ion-item>
             <ion-label position="floating">Rut</ion-label>
-            <ion-input [(ngModel)]="dueno.Rut" name="Rut"></ion-input>
+            <ion-input [(ngModel)]="rut" name="rut" required></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Telefono</ion-label>
+            <ion-input [(ngModel)]="telefono" name="telefono" required></ion-input>
           </ion-item>
       
           <ion-button expand="full" type="submit" (click)="modal.dismiss()">Registrar</ion-button>

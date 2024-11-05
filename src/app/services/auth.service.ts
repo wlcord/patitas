@@ -1,62 +1,77 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+
+import { AngularFirestoreDocument } from '@angular/fire/compat/firestore';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  email: string = '';
+  password: string = '';
+  rut: string= '';
 
-  constructor(private firestore: AngularFirestore, private router: Router) { }
+  constructor(
+    private firestore: AngularFirestore, 
+    private router: Router,
+    private afAuth: AngularFireAuth) { 
+      // Escucha los cambios de autenticación y guarda/elimina el UID en localStorage
+      this.afAuth.onAuthStateChanged((user) => {
+        if (user) {
+          localStorage.setItem('userUID', user.uid);
+          console.log('UID guardado en localStorage:', user.uid);
+        } else {
+          localStorage.removeItem('userUID');
+          console.log('Usuario no autenticado, UID eliminado de localStorage');
+        }
+      });
+    }
 
-  // Método para iniciar sesión con Firestore
+  // Función de login con email y contraseña
   async login(email: string, password: string) {
     try {
-      // Realiza la consulta para obtener los documentos donde el email coincida
-      const snapshot = await firstValueFrom(
-        this.firestore.collection('Dueño_Mascota', ref => ref.where('Email', '==', email)).get()
-      );
+      const userCredential = await this.afAuth.signInWithEmailAndPassword(email, password);
+      console.log('Inicio de sesión exitoso:', userCredential);
 
-      // Verifica que el snapshot no sea undefined y no esté vacío
-      if (snapshot && !snapshot.empty) {
-        let loginSuccess = false;  // Indicador de éxito en el login
-
-        snapshot.forEach(doc => {
-          const data: any = doc.data(); // Accede a los datos del documento
-          
-          // Verifica si el password coincide
-          if (data.Password === password) {
-            console.log('Login exitoso');
-            localStorage.setItem('Nombre', data.Nombre);
-            localStorage.setItem('Rut', data.Rut)
-            this.router.navigate(['/tabs/tab1']); // Redirige a la página principal
-            loginSuccess = true;
-          }
-        });
-
-        if (!loginSuccess) {
-          // Si no se encontró el password correcto
-          console.error('Contraseña incorrecta');
-        }
-      } else {
-        console.error('Email no encontrado');
-      }
+      this.router.navigate(['/tabs/tab1']); // Redirige a la página de perfil u otra deseada
     } catch (error) {
-      console.error('Error al iniciar sesión', error);
+      console.error('Error al iniciar sesión:', error);
     }
   }
 
+  // Cerrar sesión
   async logout() {
     try {
-      // Limpiar el localStorage
-      localStorage.removeItem('Nombre');
-      localStorage.removeItem('Rut');
-      console.log('Logout exitoso');
-      // Vaciar los campos del formulario
-      this.router.navigate(['/login']); // Redirigir a la página de login
+      localStorage.removeItem('userUID'); // Limpia el UID del localStorage inmediatamente
+      await this.afAuth.signOut();
+      this.router.navigate(['/login']) // Cierra la sesión de Firebase
+      console.log('Usuario ha cerrado sesión');
     } catch (error) {
-      console.error('Error al cerrar sesión', error);
+      console.error('Error al cerrar sesión:', error);
+    }
+  }
+
+  // Función para obtener el UID de forma segura
+  getUserUID(): string | null {
+    return localStorage.getItem('userUID');
+  }
+
+  // Función para obtener los datos del usuario desde Firestore
+  async getUserData() {
+    try {
+      const uid = this.getUserUID();
+      if (uid) {
+        const userDoc: AngularFirestoreDocument = this.firestore.doc(`Dueño_Mascota/${uid}`);
+        return userDoc.valueChanges(); // Observable con los datos del usuario
+      } else {
+        throw new Error('UID no disponible');
+      }
+    } catch (error) {
+      console.error('Error al obtener los datos del usuario:', error);
+      throw error;
     }
   }
 
@@ -65,30 +80,43 @@ export class AuthService {
     return username !== null; // Devuelve true si hay un nombre de usuario en localStorage
   }
 
-
-
-  async obtenerdatos(collectionName: string): Promise<any[]> {
-    try {
-      // Obtiene todos los documentos de la colección especificada
-      const snapshot = await firstValueFrom(
-        this.firestore.collection(collectionName).get()
-      );
-
-      // Verifica que el snapshot no esté vacío
-      if (!snapshot.empty) {
-        const documents = snapshot.docs.map(doc => {
-          const data = doc.data() as { [key: string]: any };  // Tipado explícito para evitar 'unknown'
-          return { id: doc.id, ...data };  // Ahora data tiene el tipo correcto
-        });
-        console.log('Documentos obtenidos:', documents);
-        return documents;
+  // Función para obtener el RUT del usuario desde Firestore
+  async getUserRut(): Promise<string | null> {
+    const uid = await this.getUserUID(); // Asegúrate de await en esta llamada
+    if (uid) {
+      const userDoc = this.firestore.doc(`Dueño_Mascota/${uid}`);
+      const userData = await userDoc.ref.get();
+      const user = userData.data();
+      
+      
+      // Verifica si user es un objeto y contiene el campo `rut`
+      if (user && typeof user === 'object' && 'rut' in user) {
+        console.log(user.rut)
+        return user.rut as string; // Asegura que el valor de `rut` es una cadena
       } else {
-        console.log('No se encontraron documentos en la colección.');
-        return [];
+        throw new Error('El documento no contiene el campo rut');
       }
-    } catch (error) {
-      console.error('Error al obtener documentos:', error);
-      return [];
+    } else {
+      throw new Error('UID no disponible');
     }
   }
+  
+
+  // Función para obtener las mascotas del usuario según el RUT
+  async getMascotas(): Promise<any[]> {
+    const rut = await this.getUserRut();
+    if (rut) {
+      const mascotasSnapshot = await this.firestore.collection('Mascota', ref => ref.where('Rut_dueño', '==', rut)).get().toPromise();
+      
+      // Verificación adicional para asegurarnos de que mascotasSnapshot no sea undefined
+      if (mascotasSnapshot && !mascotasSnapshot.empty) {
+        return mascotasSnapshot.docs.map(doc => doc.data()); // Devuelve un array de las mascotas
+      } else {
+        throw new Error('No se encontraron mascotas para el RUT proporcionado');
+      }
+    } else {
+      throw new Error('No se pudo obtener el RUT del usuario');
+    }
+  }
+  
 }
