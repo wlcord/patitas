@@ -41,10 +41,12 @@ export class LoginPage implements OnInit {
     
   }
 
+  //Utiliza la funcion de login del authservice
   login() {
     this.authService.login(this.email, this.password);
   }
 
+  //Utiliza la función de registrar del service de registrar
   registrarUsuario() {
     if (this.email && this.password) {
       this.afAuth.createUserWithEmailAndPassword(this.email, this.password).then((userCredential) => {

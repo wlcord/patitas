@@ -7,6 +7,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./tab5.page.scss'],
 })
 export class Tab5Page implements OnInit {
+  //Es para actualizar la aplicacion con el ion-refresher
+  handleRefresh(event: any) {
+    setTimeout(() => {
+      window.location.reload();
+      event.target.complete();
+    }, 2000);
+  }
+
+  //Lista de veterianarias
   veterinarias = [
     {
       nombre: 'Posta veterinaria',
@@ -86,6 +95,7 @@ export class Tab5Page implements OnInit {
   ngOnInit() {
   }
 
+  //Dirige al google maps cada direccion de las veterinarias
   abrirEnGoogleMaps(lat: number, lng: number) {
     const url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
     window.open(url, '_system');

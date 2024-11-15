@@ -10,6 +10,9 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['tabs.page.scss']
 })
 export class TabsPage {
+  
+
+
   Nombre: string = ''; // Almacena el nombre de usuario
   
 
@@ -24,22 +27,22 @@ export class TabsPage {
     this.loadUserName();
   }
 
+  //Se obtiene el nombre desde el local storage
   loadUserName() {
     const Nombre = localStorage.getItem('Nombre');
-    this.Nombre = Nombre !== null ? Nombre : '';  // Obtén el nombre desde localStorage
+    this.Nombre = Nombre !== null ? Nombre : '';  
   }
 
+  // Redirige a la página de login
   onLogin() {
-    // Redirige a la página de login
     this.navCtrl.navigateForward('/login');
   }
 
+  // Usa el método de logout de tu servicio de autenticación
   async onLogout() {
-    await this.authService.logout(); // Usa el método de logout de tu servicio de autenticación
+    await this.authService.logout(); 
   }
 
-  refrescarPagina() {
-    window.location.reload();
-  }
+  
   
 }

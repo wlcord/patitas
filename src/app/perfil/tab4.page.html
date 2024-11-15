@@ -5,33 +5,37 @@
 
 
 <ion-content>
-<ion-grid>
-  <ion-row id="avatarp">
-    <ion-avatar id="avatarim">
-      <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" /> <!-- agregar funcion para colocar fotos de perfil con guardado el storage de firebase -->
-    </ion-avatar>
-  </ion-row>
-  <ion-row id="inputp">
-    <ion-card *ngIf="usuario">
-      <ion-card-header>
-        <ion-card-title>Perfil del Usuario</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
-        <p><strong>Apellido:</strong> {{ usuario.apellido }}</p>
-        <p><strong>Email:</strong> {{ usuario.email }}</p>
-        <p><strong>Dirección:</strong> {{ usuario.direccion }}</p>
-        <p><strong>RUT:</strong> {{ usuario.rut }}</p>
-      </ion-card-content>
-    </ion-card>
-  </ion-row>
-  <ion-row id="botonconfirmar">  <!-- agregar funcion de editar datos del usuario -->
-    <ion-button id="confirmar1" color="success" >
-      Guardar
-    </ion-button>
-    <ion-alert
-    trigger="confirmar1" header="¿Esta seguro?" [buttons]="alertButtons">
-    </ion-alert>
-  </ion-row>
-</ion-grid>
+  <ion-refresher slot="fixed" [pullFactor]="0.5" [pullMin]="100" [pullMax]="200" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-grid>
+    <ion-row id="avatarp">
+      <ion-avatar id="avatarim">
+        <img  src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        <input type="file" (change)="onFileSelected($event)">
+      </ion-avatar>
+    </ion-row>
+    <ion-row id="inputp">
+      <ion-card *ngIf="usuario">
+        <ion-card-header>
+          <ion-card-title>Perfil del Usuario</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
+          <p><strong>Apellido:</strong> {{ usuario.apellido }}</p>
+          <p><strong>Email:</strong> {{ usuario.email }}</p>
+          <p><strong>Dirección:</strong> {{ usuario.direccion }}</p>
+          <p><strong>RUT:</strong> {{ usuario.rut }}</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-row>
+    <ion-row id="botonconfirmar">  <!-- agregar funcion de editar datos del usuario -->
+      <ion-button id="confirmar1" color="success" >
+        Guardar
+      </ion-button>
+      <ion-alert
+      trigger="confirmar1" header="¿Esta seguro?" [buttons]="alertButtons">
+      </ion-alert>
+    </ion-row>
+  </ion-grid>
 </ion-content>

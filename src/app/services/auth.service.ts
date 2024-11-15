@@ -36,7 +36,7 @@ export class AuthService {
       const userCredential = await this.afAuth.signInWithEmailAndPassword(email, password);
       console.log('Inicio de sesión exitoso:', userCredential);
 
-      this.router.navigate(['/tabs/tab1']); // Redirige a la página de perfil u otra deseada
+      this.router.navigate(['/tabs/tab1']); // Redirige a la página de inicio
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
     }
@@ -45,7 +45,7 @@ export class AuthService {
   // Cerrar sesión
   async logout() {
     try {
-      localStorage.removeItem('userUID'); // Limpia el UID del localStorage inmediatamente
+      localStorage.removeItem('userUID'); // Limpia el UID del localStorage 
       await this.afAuth.signOut();
       this.router.navigate(['/login']) // Cierra la sesión de Firebase
       console.log('Usuario ha cerrado sesión');
@@ -54,7 +54,7 @@ export class AuthService {
     }
   }
 
-  // Función para obtener el UID de forma segura
+  // Función para obtener el UID 
   getUserUID(): string | null {
     return localStorage.getItem('userUID');
   }
@@ -82,7 +82,7 @@ export class AuthService {
 
   // Función para obtener el RUT del usuario desde Firestore
   async getUserRut(): Promise<string | null> {
-    const uid = await this.getUserUID(); // Asegúrate de await en esta llamada
+    const uid = await this.getUserUID(); 
     if (uid) {
       const userDoc = this.firestore.doc(`Dueño_Mascota/${uid}`);
       const userData = await userDoc.ref.get();

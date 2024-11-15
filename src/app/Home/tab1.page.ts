@@ -10,6 +10,13 @@ const { Calendar } = Plugins;
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
+  handleRefresh(event: any) {
+    setTimeout(() => {
+      window.location.reload();
+      event.target.complete();
+    }, 2000);
+  }
+
   Titulo: string = '';
   Lugar: string = '';
   Nota: string = '';
