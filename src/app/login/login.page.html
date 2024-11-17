@@ -5,13 +5,13 @@
 </ion-header>
 <!-- agregar un card y cambio de colores para posibles metodos de login adicional -->
 <ion-content>
-  <ion-row id="loginimg">
-    <ion-avatar id="avatarlog">
-      <img  src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-    </ion-avatar>
-  </ion-row>
-  <ion-card >
-    <ion-card-content id="css-login">
+  <ion-card id="css-login">
+    <ion-card-header id="headerlogin"> 
+      <ion-avatar id="avatarlog">
+        <img src="assets/img/logo_aplicacion.jpeg" alt="Logo"/>
+      </ion-avatar>
+    </ion-card-header>
+    <ion-card-content >
       <form (ngSubmit)="login()">
         <ion-item id="label-login1">
           <ion-label position="floating">Correo Electrónico</ion-label>
