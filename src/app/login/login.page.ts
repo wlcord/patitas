@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
@@ -11,7 +11,7 @@ import { RegistrarService } from '../services/registrar.service'
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage  {
   loginForm: FormGroup;
   loginError!: string;
   nombre: string = '';
@@ -37,9 +37,7 @@ export class LoginPage implements OnInit {
     });
   }
 
-  ngOnInit() {
-    
-  }
+  
 
   //Utiliza la funcion de login del authservice
   login() {

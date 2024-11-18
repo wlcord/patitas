@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Gestión de Citas</ion-title>
+    <ion-buttons slot="end">
+      <ion-button id="citamodal">Nueva Cita</ion-button>
+      <ion-button slot="end" (click)="Volver()">
+        <ion-icon name="arrow-back-outline" ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" [pullFactor]="0.5" [pullMin]="100" [pullMax]="200" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <!-- Listado de Citas -->
+  <ion-list>
+    <ion-item *ngFor="let cita of citas">
+      <ion-label>
+        <h2>Fecha: {{ cita.fecha | date: 'short' }}</h2>
+        <p>Establecimiento: {{ cita.establecimientoNombre }}</p>
+        <p>Motivo: {{ cita.motivo }}</p>
+        <p>Identificador mascota: {{ cita.mascotaId }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Modal para registrar cita -->
+  <ion-modal #modal trigger="citamodal">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Registrar Cita</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <form (ngSubmit)="registrarCita()">
+          <ion-item>
+            <ion-label>Fecha</ion-label>
+            <ion-datetime
+              display-format="DD/MM/YYYY HH:mm"
+              [(ngModel)]="cita.fecha"
+              name="fecha"
+            ></ion-datetime>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Establecimiento</ion-label>
+            <ion-select [(ngModel)]="cita.establecimiento" name="establecimiento">
+              <ion-select-option
+                *ngFor="let establecimiento of establecimientos"
+                [value]="establecimiento.id"
+              >
+                {{ establecimiento.nombre }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          
+
+          <ion-item>
+            <ion-input label-placement="floating" [(ngModel)]="cita.motivo" name="motivo" >Motivo</ion-input>
+          </ion-item>
+
+          <ion-button expand="block" type="submit">Registrar Cita</ion-button>
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

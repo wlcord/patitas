@@ -4,6 +4,7 @@ import { RegistrarService } from '../services/registrar.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Firestore, addDoc, collection } from '@angular/fire/firestore';
 import { Timestamp } from 'firebase/firestore';
+import { NavController } from '@ionic/angular';
 
 interface VacunaData {
   Id_vacuna: number;
@@ -33,8 +34,8 @@ export class VacunasPage implements OnInit {
   constructor(
     private RegistrarService: RegistrarService,
     private route: ActivatedRoute,
-    private firestore: AngularFirestore
-    
+    private firestore: AngularFirestore,
+    private navCtrl: NavController
   ) { 
   }
 
@@ -45,6 +46,10 @@ export class VacunasPage implements OnInit {
 
     this.obtenerVacuna();
     this.idMascotarellenar()
+  }
+
+  Volver() {
+    this.navCtrl.navigateBack('/tabs/tab2'); // O usa historial automáticamente
   }
 
   formatearFecha(fecha: string | Date): string {

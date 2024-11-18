@@ -21,7 +21,12 @@ const routes: Routes = [
   {
     path: 'vacunas/:id',
     loadChildren: () => import('./vacunas/vacunas.module').then( m => m.VacunasPageModule)
+  },
+  {
+    path: 'citas/:id',
+    loadChildren: () => import('./citas/citas.module').then( m => m.CitasPageModule)
   }
+
 
 ];
 @NgModule({

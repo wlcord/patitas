@@ -25,7 +25,7 @@ export class Tab2Page implements OnInit {
   mascotas: any[] = []; // Array para almacenar las mascotas del usuario logueado
   rut_Dueño: string = ''; //Variable para guardar el rut del dueño
   usuario: any; //Guarda los datos del usuario
-  firestore: Firestore = getFirestore();
+  
   
   
   //Aca se guarda los datos de la mascota
@@ -125,5 +125,8 @@ export class Tab2Page implements OnInit {
     this.router.navigate([`/vacunas`, mascotaRut]);
   }
 
+  RegistrarCita(mascota: string) {
+    this.router.navigate([`/citas`, mascota]);
+  }
 
 }

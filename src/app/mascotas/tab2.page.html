@@ -21,8 +21,8 @@
       Sexo: {{ mascota.Sexo }} <br />
       Identificador mascota: {{ mascota.Rut_mascota }} <br />
 
-      <ion-button (click)="viewVacunas(mascota.Rut_mascota)">Vacunas</ion-button>
-      <ion-button style="margin-left: 75%;" >Ver más</ion-button> <!-- agregar funcion al boton de ver mas o eliminar -->
+      <ion-button (click)="viewVacunas(mascota.Rut_mascota)" id="botonvacunas">Vacunas</ion-button>
+      <ion-button  (click)="RegistrarCita(mascota.Rut_mascota)" id="botoncitas">Citas</ion-button> <!-- agregar funcion al boton de ver mas o eliminar -->
     </ion-card-content>
   </ion-card>
 </ion-content>

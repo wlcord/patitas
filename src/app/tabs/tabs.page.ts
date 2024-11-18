@@ -10,9 +10,6 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['tabs.page.scss']
 })
 export class TabsPage {
-  
-
-
   Nombre: string = ''; // Almacena el nombre de usuario
   
 
