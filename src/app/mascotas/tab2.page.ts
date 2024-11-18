@@ -2,6 +2,10 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FirebaseService } from '../services/firebase.service'
 import { RegistrarService } from '../services/registrar.service';
 import { AuthService } from '../services/auth.service';
+import { getAuth } from '@angular/fire/auth';
+import { getStorage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
+import { Firestore, doc, getFirestore, updateDoc } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 
 
 
@@ -20,6 +24,9 @@ export class Tab2Page implements OnInit {
 
   mascotas: any[] = []; // Array para almacenar las mascotas del usuario logueado
   rut_Dueño: string = ''; //Variable para guardar el rut del dueño
+  usuario: any; //Guarda los datos del usuario
+  firestore: Firestore = getFirestore();
+  
   
   //Aca se guarda los datos de la mascota
   Mascota = {
@@ -32,7 +39,7 @@ export class Tab2Page implements OnInit {
     Sexo: '',
     Color: '',
     Esterilizado: '',
-    Identificador_mascota: '',
+    Rut_mascota: '',
     Rut_dueño: '',
     fechaRegistro: ''
   }
@@ -45,9 +52,30 @@ export class Tab2Page implements OnInit {
   constructor(
     private RegistrarService: RegistrarService,
     private AuthService: AuthService,
+    private authService: AuthService,
+    private firebase: FirebaseService,
+    private router: Router
   ) {}
 
    async ngOnInit() {
+
+    try {
+      // Obtén los datos del usuario
+      const userDataObservable = await this.authService.getUserData();
+      if (userDataObservable) {
+        userDataObservable.subscribe((data) => {
+          this.usuario = data;
+          localStorage.setItem('Nombre', this.usuario.nombre);
+          console.log('Datos del usuario:', this.usuario);
+        });
+      }
+    } catch (error) {
+      console.error('Error al obtener los datos del usuario:', error);
+    }
+
+    const rutDueño = localStorage.getItem('Rut');
+    this.Mascota.Rut_dueño = rutDueño ? rutDueño : '';
+  
     try {
       //Se obtienen las mascotas registradas del rut actual
       this.mascotas = await this.AuthService.getMascotas();
@@ -55,6 +83,8 @@ export class Tab2Page implements OnInit {
     } catch (error) {
       console.error('Error al obtener las mascotas:', error);
     }
+
+    this.Mascota.Rut_dueño = this.usuario.rut;
   }
 
   
@@ -89,6 +119,10 @@ export class Tab2Page implements OnInit {
     }).catch(error => {
       console.error('Error al registrar la mascota:', error);
     });
+  }
+  viewVacunas(mascotaRut: string) {
+    // Redirige a la pagina de vacunas
+    this.router.navigate([`/vacunas`, mascotaRut]);
   }
 
 

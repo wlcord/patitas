@@ -19,8 +19,9 @@
       Edad: {{ mascota.Edad }} <br />
       Especie: {{ mascota.Especie }} <br />
       Sexo: {{ mascota.Sexo }} <br />
-      Identificador mascota: {{ mascota.Identificador_mascota }} <br />
+      Identificador mascota: {{ mascota.Rut_mascota }} <br />
 
+      <ion-button (click)="viewVacunas(mascota.Rut_mascota)">Vacunas</ion-button>
       <ion-button style="margin-left: 75%;" >Ver más</ion-button> <!-- agregar funcion al boton de ver mas o eliminar -->
     </ion-card-content>
   </ion-card>
@@ -64,7 +65,7 @@
         </ion-item>
 
         <ion-item>
-          <ion-input label="Identificador mascota" label-placement="floating" [(ngModel)]="Mascota.Identificador_mascota" name="Identificador_mascota"></ion-input>
+          <ion-input label="Rut_mascota" label-placement="floating" [(ngModel)]="Mascota.Rut_mascota" name="Rut_mascota"></ion-input>
         </ion-item>
       
         <ion-item>

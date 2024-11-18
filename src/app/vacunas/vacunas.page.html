@@ -1,0 +1,56 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Vacunas</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <h2>Lista de IDs de Mascotas</h2>
+  <ul>
+    <li *ngFor="let id of idsvacunasArray">
+      {{ id }}
+    </li>
+  </ul>
+<ion-list *ngIf="vacunas.length > 0">
+
+  <!-- <ion-searchbar show-clear-button="always" value="Buscar mascota"></ion-searchbar> -->
+  
+  <ion-card *ngFor="let vacuna of vacunas" >
+    <ion-card-header>
+    
+      <ion-card-title>{{ getMensajesPorVacuna(vacuna.Id_vacuna)[0] }}</ion-card-title>
+    
+    </ion-card-header>
+    <ion-card-content>
+      Fecha de aplicación: {{ vacuna.fecha_aplicacion}} <br />
+      Descripción: {{ getMensajesPorVacuna(vacuna.Id_vacuna)[1] }}<br />
+      Duración: {{ getMensajesPorVacuna(vacuna.Id_vacuna)[2] }}
+
+    </ion-card-content>
+  </ion-card>
+</ion-list>
+
+<ion-button id="registro-vacuna" color="tertiary" >Registrar vacuna</ion-button>
+
+
+<ion-modal #modal trigger="registro-vacuna">
+  <ng-template>
+    <ion-content>
+      <ion-toolbar>
+        <ion-title>Registrar</ion-title>
+        
+      </ion-toolbar>
+
+      <form (ngSubmit)="registrarVacuna()">
+        <ion-item>
+          <ion-input  label="Tipo de vacuna"  type="number"  [(ngModel)]="vacunaData.Id_vacuna"  label-placement="floating"  name="TipoVacuna"></ion-input>
+        </ion-item>
+        
+        <ion-item>
+          <ion-datetime label="Fecha de aplicación" [(ngModel)]="vacunaData.fecha_aplicacion" label-placement="floating"  name="FechaAplicacion"></ion-datetime>
+        </ion-item>
+      
+        <ion-button color="success" (click)="modal.dismiss()" type="submit">Guardar</ion-button>
+      </form>
+    </ion-content>
+  </ng-template>
+</ion-modal>
