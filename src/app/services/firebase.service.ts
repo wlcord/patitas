@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, query, where, getDocs } from '@angular/fire/firestore';
-import { Auth } from '@angular/fire/auth';
+import { getAuth } from '@angular/fire/auth';
+import { Firestore, getFirestore } from '@angular/fire/firestore';
+import { getStorage } from '@angular/fire/storage';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
 
+  auth = getAuth();
+  firestore: Firestore = getFirestore();
+  storage = getStorage();
+
   constructor(
-    private firestore: Firestore, 
-    private auth: Auth
   ) { }
 
 

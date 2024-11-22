@@ -1,22 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { catchError, map } from 'rxjs';
+import { catchError, map, Subscription } from 'rxjs';
 @Component({
   selector: 'app-citas',
   templateUrl: './citas.page.html',
   styleUrls: ['./citas.page.scss'],
 })
-export class CitasPage implements OnInit {
+export class CitasPage implements OnInit , OnDestroy{
   handleRefresh(event: any) {
     setTimeout(() => {
       window.location.reload();
       event.target.complete();
     }, 2000);
   }
-  
+  private subscription: Subscription = new Subscription;
+
   mascotaId: string = '';
   citas: any[] = []; // Lista de citas
   establecimientos: any[] = []; // Lista de establecimientos
@@ -26,7 +27,8 @@ export class CitasPage implements OnInit {
     private route: ActivatedRoute, 
     private firestore: AngularFirestore,
     private modalController: ModalController,
-    private navCtrl: NavController) { }
+    private navCtrl: NavController,
+    ) { }
 
   ngOnInit() {
     // Obtener el ID de la mascota
@@ -44,10 +46,10 @@ export class CitasPage implements OnInit {
     try {
       const establecimientosObservable = this.firestore
         .collection('Establecimiento')
-        .valueChanges({ idField: 'id' }); // Incluye el ID como parte del objeto
-  
+        .valueChanges({ idField: 'id' });
+
       if (establecimientosObservable) {
-        establecimientosObservable.subscribe((data) => {
+        this.subscription = establecimientosObservable.subscribe((data) => {
           this.establecimientos = data.map((establecimiento: any) => ({
             ...establecimiento,
           }));
@@ -55,7 +57,12 @@ export class CitasPage implements OnInit {
         });
       }
     } catch (error) {
-      console.error('Error al obtener los establecimientos:', error);
+      console.error('Error al obtener los establecimientos:');
+    }
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
   

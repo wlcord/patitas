@@ -45,7 +45,7 @@ export class Tab2Page implements OnInit {
   }
 
   razasPerro = ['Labrador', 'Pastor Alemán', 'Bulldog francés', 'Golden Retriever', 'Husky siberiano', 'Chihuahua', 'Pit bull terrier americano', 'Beagle', 'Mastín', 'Dóberman', 'Rottweiler', 'Mestizo (Quiltro)'];
-  razasGato = ['Persa', 'Siamés', 'Bengalí', 'Sphynx', 'Azul ruso', 'Angora', 'Siberiano', 'Maine Coon', 'Bombay', 'Curl americano', 'Ragdoll'];
+  razasGato = ['Persa', 'Siamés', 'Bengalí', 'Sphynx', 'Azul ruso', 'Angora', 'Siberiano', 'Maine Coon', 'Bombay', 'Curl americano', 'Ragdoll', 'Otro'];
   razasDisponibles: string[] = [];
 
 
@@ -89,7 +89,7 @@ export class Tab2Page implements OnInit {
 
   
 
-  //Función pra actualizar las razas de las mascotas al momento de registrar
+  //Función para actualizar las razas de las mascotas al momento de registrar
   actualizarRazas() {
     if (this.Mascota.Especie === 'Perro') {
       this.razasDisponibles = this.razasPerro;
@@ -120,6 +120,7 @@ export class Tab2Page implements OnInit {
       console.error('Error al registrar la mascota:', error);
     });
   }
+
   viewVacunas(mascotaRut: string) {
     // Redirige a la pagina de vacunas
     this.router.navigate([`/vacunas`, mascotaRut]);
