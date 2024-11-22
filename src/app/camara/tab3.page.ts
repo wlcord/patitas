@@ -1,6 +1,8 @@
 import { Component} from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { VisionService } from '../services/vision.service';
+import { RegistrarService } from '../services/registrar.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-mapa',
@@ -27,7 +29,9 @@ export class Tab3Page {
   } | null = null;
 
   constructor(
-    private visionService: VisionService
+    private visionService: VisionService,
+    private firebaseService: RegistrarService,
+    private alertController: AlertController
   ) {}
 
   async tomarFoto() {
@@ -87,5 +91,24 @@ export class Tab3Page {
   const match = text.match(regex);
   return match ? match[1] : 'No encontrado';
 }
-  
+
+async saveData() {
+  try {
+    await this.firebaseService.guardarDatosenColeccion('Recetas', this.extractedFields);
+    await this.showAlert('Guardado exitoso', 'Los datos han sido guardados correctamente.');
+  } catch (error) {
+    console.error('Error al guardar:', error);
+    await this.showAlert('Error', 'Hubo un problema al guardar los datos.');
+  }
+}
+
+async showAlert(header: string, message: string) {
+  const alert = await this.alertController.create({
+    header,
+    message,
+    buttons: ['OK'],
+  });
+  await alert.present();
+}
+
 }
