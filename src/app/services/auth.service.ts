@@ -36,7 +36,7 @@ export class AuthService {
       const userCredential = await this.afAuth.signInWithEmailAndPassword(email, password);
       console.log('Inicio de sesión exitoso:', userCredential);
 
-      this.router.navigate(['/tabs/tab1']); // Redirige a la página de inicio
+      this.router.navigate(['/tabs/tab3']); // Redirige a la página de inicio
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
     }

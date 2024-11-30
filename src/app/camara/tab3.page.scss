@@ -1,0 +1,19 @@
+ion-content::part(background) {
+    background: #13a6d3;
+}
+
+#botonfoto {
+    height: 250px;
+    width: 250px;
+    margin-left: 18%;
+    margin-top: 30%;
+}
+ion-card {
+    --background: #decd10;
+    color: black;
+}
+
+#datoscamara {
+    padding-left: 20px;
+    font-weight: bold;
+}

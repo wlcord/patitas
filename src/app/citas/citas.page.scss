@@ -13,3 +13,7 @@ ion-modal ion-toolbar {
     --background: rgb(26, 5, 140);
     --color: white;
   }
+
+  ion-content::part(background) {
+    background: #13a6d3;
+}

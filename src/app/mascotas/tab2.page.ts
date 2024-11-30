@@ -116,6 +116,7 @@ export class Tab2Page implements OnInit {
     this.Mascota.fechaRegistro = fechaActual.toISOString();
     this.RegistrarService.registrarMascota(this.Mascota).then(() => {
       console.log('Mascota registrado con éxito');
+      
     }).catch(error => {
       console.error('Error al registrar la mascota:', error);
     });
@@ -130,4 +131,13 @@ export class Tab2Page implements OnInit {
     this.router.navigate([`/citas`, mascota]);
   }
 
+  deleteMascota(idmascota:string): void {
+    this.RegistrarService.eliminarMascota(idmascota).then(() => {
+      console.log('Mascota eliminada exitosamente')
+
+      
+    }).catch(error => {
+      console.log('Error al eliminar la mascota', error)
+    });
+  }
 }

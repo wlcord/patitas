@@ -17,16 +17,21 @@ export class Tab3Page {
     }, 2000);
   }
 
-  imageBase64: string = '';
-  extractedText: string = ''; // Para almacenar el texto extraído
+  imageBase64: string = ''; // Para almacenar la imagen tomada por la camara
+  extractedText: string = ''; // Para almacenar el texto completo extraído de la imagen
   isLoading: boolean = false; // Indicador de carga
   extractedFields: {
     nombrePaciente: string;
+    especie: string;
+    raza: string;
+    edad: string;
+    peso: string;
     direccion: string;
     veterinario: string;
     fecha: string;
-    motivo: string;
-  } | null = null;
+    diagnostico: string;
+    rp: string;
+  } | null = null; // Para almacenar los datos especificos extraidos de la imagen  
 
   constructor(
     private visionService: VisionService,
@@ -34,6 +39,7 @@ export class Tab3Page {
     private alertController: AlertController
   ) {}
 
+  // Funcion que abre la camara del telefono para poder tomar las fotos y enviar la foto a la funcion de procesarImagen
   async tomarFoto() {
     try {
       // Capturar la foto con la cámara
@@ -52,6 +58,7 @@ export class Tab3Page {
     }
   }
   
+  // Funcion que se dedica a procesar la imagen donde se extrae los datos dependiendo de los campos especificados como por ejemplo el nombre de paciente
   procesarImagen(imageBase64: string) {
     this.isLoading = true;
     this.visionService.analyzeImage(imageBase64).subscribe(
@@ -66,14 +73,20 @@ export class Tab3Page {
             direccion: this.extractField(fullAnnotation, /Dirección:\s*([^\n]+)/i),
             veterinario: this.extractField(fullAnnotation, /Veterinario:\s*([^\n]+)/i),
             fecha: this.extractField(fullAnnotation, /Fecha:\s*(\d{1,2}\/\d{1,2}\/\d{4})/i),
-            motivo: this.extractField(fullAnnotation, /Motivo:\s*([^\n]+)/i),
-            nombrePaciente: this.extractField(fullAnnotation, /Mascota:\s*([^\n]+)/i),
+            diagnostico: this.extractField(fullAnnotation, /Diagnostico:\s*([^\n]+)/i),
+            rp: this.extractField(fullAnnotation, /Rp.\s*([^\n]+)/i),
+            nombrePaciente: this.extractField(fullAnnotation, /Nombre Paciente:\s*([^\n]+)/i),
+            especie: this.extractField(fullAnnotation, /Especie:\s*([^\n]+)/i),
+            raza: this.extractField(fullAnnotation, /Raza:\s*([^\n]+)/i),
+            edad: this.extractField(fullAnnotation, /Edad:\s*([^\n]+)/i),
+            peso: this.extractField(fullAnnotation, /Peso:\s*([^\n]+)/i)
           };
           console.log('Nombre Paciente:', this.extractedFields.nombrePaciente);
           console.log('Dirección:', this.extractedFields.direccion);
           console.log('Veterinario:', this.extractedFields.veterinario);
           console.log('Fecha:', this.extractedFields.fecha);
-          console.log('Motivo:', this.extractedFields.motivo);
+          console.log('Motivo:', this.extractedFields.diagnostico);
+          console.log('Raza:', this.extractedFields.raza);
         } else {
           this.extractedText = 'No se encontró texto';
         }
@@ -87,12 +100,13 @@ export class Tab3Page {
   }
 
 // Método para usar expresiones regulares y obtener datos específicos
-  extractField(text: string, regex: RegExp): string {
+extractField(text: string, regex: RegExp): string {
   const match = text.match(regex);
   return match ? match[1] : 'No encontrado';
 }
 
-async saveData() {
+// Funcion para guardar los datos extraidos de la imgen en una coleccion en firerbase
+async guardarDatos() {
   try {
     await this.firebaseService.guardarDatosenColeccion('Recetas', this.extractedFields);
     await this.showAlert('Guardado exitoso', 'Los datos han sido guardados correctamente.');
@@ -102,6 +116,7 @@ async saveData() {
   }
 }
 
+// Alerta para confirmar que los datso fueron guardados correctamente.
 async showAlert(header: string, message: string) {
   const alert = await this.alertController.create({
     header,

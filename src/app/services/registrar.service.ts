@@ -28,6 +28,11 @@ export class RegistrarService {
     return this.firestore.collection('Mascota').add(datosMascota);
   }
 
+  //Metodo para eliminar el registro de una mascota
+  eliminarMascota(idMascota: string): Promise<void> {
+    return this.firestore.collection('Mascota').doc(idMascota).delete();
+  }
+
   // Obtener vacunas por rut de mascota
   obtenerVacunas(rutMascota: string) {
     return this.firestore
@@ -39,10 +44,22 @@ export class RegistrarService {
     return this.firestore.collection('Vacuna').add(datosVacuna);
   }
 
+  // Metodo para guardar los datos extraidos con el OCR de la camara en una coleccion de Firestore
   async guardarDatosenColeccion(collectionName: string, data: any): Promise<void> {
     const colRef = collection(this.Firestore, collectionName);
     await addDoc(colRef, data);
   }
+
+  // Metodo para eliminar una cita ya registrada en la coleccion de 'Cita'
+  deleteCita(id: string): Promise<void> {
+    return this.firestore.collection('Cita').doc(id).delete();
+  }
+
+  // Metodo para editar una cita ya registrada en la coleccion de 'Cita'
+  editCita(id: string, data: any): Promise<void> {
+    return this.firestore.collection('Cita').doc(id).update(data);
+  }
+  
 
   
 }

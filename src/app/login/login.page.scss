@@ -2,6 +2,9 @@ ion-card {
     margin-top: 40%;
 }
 
+ion-content::part(background) {
+    background: #13a6d3;
+}
 
 
 #css-login {
@@ -13,10 +16,12 @@ ion-card {
 #registro-usuario {
     --background: rgba(0, 255, 255, 0.714);
     justify-items: end;
+    color: black;
 }
 
 #login-usuario {
     --background: rgba(0, 255, 255, 0.714);
+    color: black;
 }
 
 #label-login1 {

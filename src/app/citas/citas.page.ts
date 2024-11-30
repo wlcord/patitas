@@ -1,15 +1,22 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ModalController, NavController } from '@ionic/angular';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { ModalController, NavController, Platform } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { catchError, map, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { RegistrarService } from '../services/registrar.service';
+
+
+
+
+
 @Component({
   selector: 'app-citas',
   templateUrl: './citas.page.html',
   styleUrls: ['./citas.page.scss'],
 })
 export class CitasPage implements OnInit , OnDestroy{
+  
+  
   handleRefresh(event: any) {
     setTimeout(() => {
       window.location.reload();
@@ -23,11 +30,14 @@ export class CitasPage implements OnInit , OnDestroy{
   establecimientos: any[] = []; // Lista de establecimientos
   cita: any = {}; // Modelo para la nueva cita
 
+
   constructor(
     private route: ActivatedRoute, 
     private firestore: AngularFirestore,
     private modalController: ModalController,
     private navCtrl: NavController,
+    private registrarservice: RegistrarService,
+    private platform: Platform,
     ) { }
 
   ngOnInit() {
@@ -35,21 +45,28 @@ export class CitasPage implements OnInit , OnDestroy{
     this.mascotaId = this.route.snapshot.paramMap.get('id')!;
 
     this.obtenerEstablecimientos();
-    this.obtenerCitas();
+    this.obtenerCitas(this.mascotaId);
+    
+    
+  }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   Volver() {
-    this.navCtrl.navigateBack('/tabs/tab2'); // O usa historial automáticamente
+    this.navCtrl.navigateBack('/tabs/tab2');
   }
 
   async obtenerEstablecimientos() {
     try {
       const establecimientosObservable = this.firestore
-        .collection('Establecimiento')
+        .collection('Establecimiento ')
         .valueChanges({ idField: 'id' });
 
       if (establecimientosObservable) {
-        this.subscription = establecimientosObservable.subscribe((data) => {
+        establecimientosObservable.subscribe((data) => {
           this.establecimientos = data.map((establecimiento: any) => ({
             ...establecimiento,
           }));
@@ -60,19 +77,14 @@ export class CitasPage implements OnInit , OnDestroy{
       console.error('Error al obtener los establecimientos:');
     }
   }
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-  
-  
 
-  async obtenerCitas() {
+  async obtenerCitas(rutMascota: string) {
     try {
       const citasObservable = this.firestore
-        .collection('Cita')
-        .valueChanges({ idField: 'id' });
+        .collection('Cita', (ref) =>
+          ref.where('mascotaId', '==', rutMascota) // Filtra por el RUT de la mascota
+        )
+        .valueChanges({ idField: 'Rut_mascota' });
   
       if (citasObservable) {
         citasObservable.subscribe((data) => {
@@ -80,7 +92,7 @@ export class CitasPage implements OnInit , OnDestroy{
             ...cita,
             fecha: cita.fecha?.toDate(), // Convierte el Timestamp a Date
           }));
-          console.log('Citas obtenidas:', this.citas);
+          console.log('Citas obtenidas para el RUT:', rutMascota, this.citas);
         });
       }
     } catch (error) {
@@ -89,15 +101,6 @@ export class CitasPage implements OnInit , OnDestroy{
   }
   
   
-  
-  
-  
-  
-    
-  
-
-
-
 
   // Registrar nueva cita en Firestore
   async registrarCita() {
@@ -114,7 +117,7 @@ export class CitasPage implements OnInit , OnDestroy{
       const citasRef = this.firestore.collection('Cita');
       await citasRef.add({
         ...this.cita,
-        fecha: new Date(this.cita.fecha), // Asegúrate de que la fecha esté en formato correcto
+        fecha: new Date(this.cita.fecha), 
       });
   
       alert('Cita registrada con éxito');
@@ -125,10 +128,15 @@ export class CitasPage implements OnInit , OnDestroy{
     }
   }
   
-
-
-
-  
+  deleteCita(id: string): void {
+    this.registrarservice.deleteCita(id).then(() => {
+      console.log('Cita eliminada exitosamente');
+      // Actualiza la lista de citas si es necesario
+      this.obtenerCitas(id);
+    }).catch(error => {
+      console.error('Error al eliminar la cita:', error);
+    });
+  }
 
 }
 
