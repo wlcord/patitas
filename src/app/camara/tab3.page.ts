@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { VisionService } from '../services/vision.service';
 import { RegistrarService } from '../services/registrar.service';
@@ -9,7 +9,7 @@ import { AlertController } from '@ionic/angular';
   templateUrl: './tab3.page.html',
   styleUrls: ['./tab3.page.scss'],
 })
-export class Tab3Page {
+export class Tab3Page   {
   handleRefresh(event: any) {
     setTimeout(() => {
       window.location.reload();
@@ -17,10 +17,11 @@ export class Tab3Page {
     }, 2000);
   }
 
+  
   imageBase64: string = ''; // Para almacenar la imagen tomada por la camara
   extractedText: string = ''; // Para almacenar el texto completo extraído de la imagen
   isLoading: boolean = false; // Indicador de carga
-  extractedFields: {
+  extractedFields!: {
     nombrePaciente: string;
     especie: string;
     raza: string;
@@ -31,13 +32,15 @@ export class Tab3Page {
     fecha: string;
     diagnostico: string;
     rp: string;
-  } | null = null; // Para almacenar los datos especificos extraidos de la imagen  
+  }; // Para almacenar los datos especificos extraidos de la imagen  
 
   constructor(
     private visionService: VisionService,
     private firebaseService: RegistrarService,
     private alertController: AlertController
   ) {}
+
+  
 
   // Funcion que abre la camara del telefono para poder tomar las fotos y enviar la foto a la funcion de procesarImagen
   async tomarFoto() {
@@ -79,14 +82,10 @@ export class Tab3Page {
             especie: this.extractField(fullAnnotation, /Especie:\s*([^\n]+)/i),
             raza: this.extractField(fullAnnotation, /Raza:\s*([^\n]+)/i),
             edad: this.extractField(fullAnnotation, /Edad:\s*([^\n]+)/i),
-            peso: this.extractField(fullAnnotation, /Peso:\s*([^\n]+)/i)
+            peso: this.extractField(fullAnnotation, /Peso:\s*([^\n]+)/i),
+  
           };
           console.log('Nombre Paciente:', this.extractedFields.nombrePaciente);
-          console.log('Dirección:', this.extractedFields.direccion);
-          console.log('Veterinario:', this.extractedFields.veterinario);
-          console.log('Fecha:', this.extractedFields.fecha);
-          console.log('Motivo:', this.extractedFields.diagnostico);
-          console.log('Raza:', this.extractedFields.raza);
         } else {
           this.extractedText = 'No se encontró texto';
         }
@@ -108,7 +107,9 @@ extractField(text: string, regex: RegExp): string {
 // Funcion para guardar los datos extraidos de la imgen en una coleccion en firerbase
 async guardarDatos() {
   try {
-    await this.firebaseService.guardarDatosenColeccion('Recetas', this.extractedFields);
+    const rutUsuario = localStorage.getItem('Rut');
+    const datosConRUT = { ...this.extractedFields, rut: rutUsuario };
+    await this.firebaseService.guardarDatosenColeccion('Recetas', datosConRUT);
     await this.showAlert('Guardado exitoso', 'Los datos han sido guardados correctamente.');
   } catch (error) {
     console.error('Error al guardar:', error);

@@ -131,13 +131,13 @@ export class Tab2Page implements OnInit {
     this.router.navigate([`/citas`, mascota]);
   }
 
-  deleteMascota(idmascota:string): void {
-    this.RegistrarService.eliminarMascota(idmascota).then(() => {
-      console.log('Mascota eliminada exitosamente')
+  // deleteMascota(idmascota:string): void {
+  //   this.RegistrarService.eliminarMascota(idmascota).then(() => {
+  //     console.log('Mascota eliminada exitosamente')
 
       
-    }).catch(error => {
-      console.log('Error al eliminar la mascota', error)
-    });
-  }
+  //   }).catch(error => {
+  //     console.log('Error al eliminar la mascota', error)
+  //   });
+  // }
 }

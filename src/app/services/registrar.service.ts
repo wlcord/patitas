@@ -44,11 +44,20 @@ export class RegistrarService {
     return this.firestore.collection('Vacuna').add(datosVacuna);
   }
 
+  //Citas
+
   // Metodo para guardar los datos extraidos con el OCR de la camara en una coleccion de Firestore
   async guardarDatosenColeccion(collectionName: string, data: any): Promise<void> {
     const colRef = collection(this.Firestore, collectionName);
     await addDoc(colRef, data);
   }
+
+  obtenerReceta(rutUsuario: string) {
+    return this.firestore
+      .collection('Recetas', ref => ref.where('rut', '==', rutUsuario))
+      .snapshotChanges();
+  }
+  
 
   // Metodo para eliminar una cita ya registrada en la coleccion de 'Cita'
   deleteCita(id: string): Promise<void> {

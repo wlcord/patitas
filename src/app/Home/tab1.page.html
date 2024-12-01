@@ -9,18 +9,22 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-card>
+  <ion-card *ngFor="let recetas of receta" >
     <ion-card-header>
-      <ion-card-title>Nombre mascota</ion-card-title>
-      <ion-card-subtitle>Especie y raza del perro</ion-card-subtitle>
+      <ion-card-title>{{ recetas.nombrePaciente }}</ion-card-title>
+      <ion-card-subtitle>{{ recetas.especie }}</ion-card-subtitle>
     </ion-card-header>
 
     <ion-card-content>
-      <p>Datos de las citas</p>
+      <p>Edad: {{ recetas.edad }}</p>
+      <p>Peso: {{ recetas.peso }}</p>
+      <p>Dirección: {{ recetas.direccion }}</p>
+      <p>Veterinario: {{ recetas.veterinario }}</p>
+      <p>Fecha: {{ recetas.fecha }}</p>
+      <p>Diagnostico: {{ recetas.diagnostico }}</p>
+      <p>Rp: {{ recetas.rp }}</p>
     </ion-card-content>
-    
   </ion-card>
-
 </ion-content>
 
 
