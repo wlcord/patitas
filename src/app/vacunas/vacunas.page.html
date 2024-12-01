@@ -15,7 +15,6 @@
   </ul>
 <ion-list *ngIf="vacunas.length > 0">
 
-  <!-- <ion-searchbar show-clear-button="always" value="Buscar mascota"></ion-searchbar> -->
   
   <ion-card *ngFor="let vacuna of vacunas" >
     <ion-card-header>
@@ -45,13 +44,13 @@
 
       <form (ngSubmit)="registrarVacuna()">
         <ion-item>
-          <ion-input  label="Tipo de vacuna"  type="number"  [(ngModel)]="vacunaData.Id_vacuna"  label-placement="floating"  name="TipoVacuna"></ion-input>
+          <ion-datetime label="Fecha de aplicación" [(ngModel)]="vacunaData.fecha_aplicacion" label-placement="floating"  name="FechaAplicacion"></ion-datetime>
         </ion-item>
         
         <ion-item>
-          <ion-datetime label="Fecha de aplicación" [(ngModel)]="vacunaData.fecha_aplicacion" label-placement="floating"  name="FechaAplicacion"></ion-datetime>
+          <ion-input  label="Tipo de vacuna"  type="number"  [(ngModel)]="vacunaData.Id_vacuna"  label-placement="floating"  name="TipoVacuna"></ion-input>
         </ion-item>
-      
+
         <ion-button color="success" (click)="modal.dismiss()" type="submit">Guardar</ion-button>
         
       </form>

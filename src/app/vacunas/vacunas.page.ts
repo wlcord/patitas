@@ -27,8 +27,6 @@ export class VacunasPage implements OnInit {
     fecha_aplicacion: null as Timestamp | null,
   };
 
-  
-
 
   
   constructor(
@@ -45,7 +43,8 @@ export class VacunasPage implements OnInit {
     console.log('Url_ID:', this.rut_url);
 
     this.obtenerVacuna();
-    this.idMascotarellenar()
+    this.idMascotarellenar();
+    
   }
 
   Volver() {
@@ -71,7 +70,7 @@ export class VacunasPage implements OnInit {
         const vacuna = e.payload.doc.data();
         return {
           id: e.payload.doc.id,
-          ...e.payload.doc.data(), // Obtener los datos de la mascota
+          ...e.payload.doc.data(), 
           fecha_aplicacion: this.formatearFecha(vacuna.fecha_aplicacion.toDate()),
         };
       });
@@ -82,6 +81,8 @@ export class VacunasPage implements OnInit {
   obtenerIdsVacunas(): string[] {
     return this.vacunas.map(vacuna => vacuna.Id_vacuna);
   }
+  
+  
 
   getMensajesPorVacuna(id: number): string[] {
     switch (id) {
@@ -103,6 +104,7 @@ export class VacunasPage implements OnInit {
         return ['Vacuna personalizada', 'Vacuna no esperada en el sistema', 'No informacion'];
     }
   }
+
   idMascotarellenar() {
     if (!this.rut_url) {
       console.error('rut_url no está definido');
