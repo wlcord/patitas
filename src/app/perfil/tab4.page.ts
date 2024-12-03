@@ -68,12 +68,7 @@ export class Tab4Page implements OnInit {
       }
     }
 
-    // Función para manejar el cambio de imagen
-    onFileChange(event: any) {
-      if (event.target.files.length > 0) {
-        this.profilePic = event.target.files[0];
-      }
-    }
+    
 
     // Función para guardar la imagen de perfil
     async guardarfotoperfil() {
