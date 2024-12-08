@@ -36,7 +36,7 @@ export class AuthService {
       const userCredential = await this.afAuth.signInWithEmailAndPassword(email, password);
       console.log('Inicio de sesión exitoso:', userCredential);
 
-      this.router.navigate(['/tabs/tab3']); // Redirige a la página de inicio
+      this.router.navigate(['/tabs/tab3']); // Redirige a la página de camara
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
     }
@@ -45,7 +45,7 @@ export class AuthService {
   // Cerrar sesión
   async logout() {
     try {
-      localStorage.removeItem('userUID'); // Limpia el UID del localStorage 
+      localStorage.clear() // Limpia el localStorage
       await this.afAuth.signOut();
       this.router.navigate(['/login']) // Cierra la sesión de Firebase
       console.log('Usuario ha cerrado sesión');

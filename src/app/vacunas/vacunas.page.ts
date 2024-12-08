@@ -20,12 +20,16 @@ export class VacunasPage implements OnInit {
   rut_url:string | null = null;
   vacunas: any[] = [];
   idsvacunasArray: string[] = [];
+  lista_vacuna: any[] = [];
 
   vacunaData = {
     Rut_mascota: '',
     Id_vacuna: '',
+    duracion: '',
+    descripcion: '',
     fecha_aplicacion: null as Timestamp | null,
   };
+  vacunaSeleccionada: any = null;
 
 
   
@@ -44,6 +48,7 @@ export class VacunasPage implements OnInit {
 
     this.obtenerVacuna();
     this.idMascotarellenar();
+    this.listaVacunas();
     
   }
 
@@ -57,6 +62,25 @@ export class VacunasPage implements OnInit {
     const mes = String(fechaObj.getMonth() + 1).padStart(2, '0');
     const anio = fechaObj.getFullYear();
     return `${dia}/${mes}/${anio}`;
+  }
+
+  async listaVacunas() {
+    try {
+      const vacunasObservable = this.firestore
+        .collection('Tipo_vacuna')
+        .valueChanges({ idField: 'id' });
+
+      if (vacunasObservable) {
+        vacunasObservable.subscribe((data) => {
+          this.lista_vacuna = data.map((lista_vacuna: any) => ({
+            ...lista_vacuna,
+          }));
+          console.log('Lista de vacunas:', this.lista_vacuna);
+        });
+      }
+    } catch (error) {
+      console.error('Error al obtener las vacunas:');
+    }
   }
 
   obtenerVacuna() {
@@ -78,6 +102,7 @@ export class VacunasPage implements OnInit {
       this.idsvacunasArray = this.obtenerIdsVacunas();
     });
   }
+
   obtenerIdsVacunas(): string[] {
     return this.vacunas.map(vacuna => vacuna.Id_vacuna);
   }
@@ -124,6 +149,7 @@ export class VacunasPage implements OnInit {
         // Puedes mostrar un mensaje de error al usuario aquí
       });
   }
+  
   registrarVacuna() {
   // Convierte el string de fecha en un objeto Timestamp
   const fecha = this.vacunaData.fecha_aplicacion 
@@ -144,6 +170,14 @@ export class VacunasPage implements OnInit {
     }).catch(error => {
       console.error('Error al registrar la Vacuna:', error);
     });
+  }
+
+  // Actualiza los datos de la vacuna seleccionada
+  actualizarDatosVacuna(event: any) {
+    this.vacunaSeleccionada = event.detail.value; // Almacena el objeto seleccionado
+    this.vacunaData.Id_vacuna = this.vacunaSeleccionada.Nombre;
+    this.vacunaData.descripcion = this.vacunaSeleccionada.Descripcion;
+    this.vacunaData.duracion = this.vacunaSeleccionada.Duracion;
   }
 
 }

@@ -7,26 +7,22 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <h2>Lista de IDs de Mascotas</h2>
-  <ul>
-    <li *ngFor="let id of idsvacunasArray">
-      {{ id }}
-    </li>
-  </ul>
+  <h2>Lista de vacunas</h2>
 <ion-list *ngIf="vacunas.length > 0">
 
   
   <ion-card *ngFor="let vacuna of vacunas" >
     <ion-card-header>
     
-      <ion-card-title>{{ getMensajesPorVacuna(vacuna.Id_vacuna)[0] }}</ion-card-title>
+      <ion-card-title>{{ vacuna.Id_vacuna }}</ion-card-title>
     
     </ion-card-header>
     <ion-card-content>
       Fecha de aplicación: {{ vacuna.fecha_aplicacion}} <br />
-      Descripción: {{ getMensajesPorVacuna(vacuna.Id_vacuna)[1] }}<br />
-      Duración: {{ getMensajesPorVacuna(vacuna.Id_vacuna)[2] }}
 
+      Descripción: {{ vacuna.descripcion }} <br />
+      
+      Duración: {{ vacuna.duracion }} <br />
     </ion-card-content>
   </ion-card>
 </ion-list>
@@ -46,9 +42,29 @@
         <ion-item>
           <ion-datetime label="Fecha de aplicación" [(ngModel)]="vacunaData.fecha_aplicacion" label-placement="floating"  name="FechaAplicacion"></ion-datetime>
         </ion-item>
-        
+
         <ion-item>
-          <ion-input  label="Tipo de vacuna"  type="number"  [(ngModel)]="vacunaData.Id_vacuna"  label-placement="floating"  name="TipoVacuna"></ion-input>
+          <ion-label>Tipo de vacuna</ion-label>
+          <ion-select [(ngModel)]="vacunaData.Id_vacuna" name="TipoVacuna" (ionChange)="actualizarDatosVacuna($event)">
+            <ion-select-option
+              *ngFor="let vacuna of lista_vacuna"
+              [value]="vacuna"
+            >
+              {{ vacuna.Nombre }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item *ngIf="vacunaSeleccionada" >
+          <ion-label>
+            <strong>Descripción:</strong> {{ vacunaSeleccionada.Descripcion }}
+          </ion-label>
+        </ion-item>
+
+        <ion-item *ngIf="vacunaSeleccionada" >
+          <ion-label>
+            <strong>Duración:</strong> {{ vacunaSeleccionada.Duracion }}
+          </ion-label>
         </ion-item>
 
         <ion-button color="success" (click)="modal.dismiss()" type="submit">Guardar</ion-button>

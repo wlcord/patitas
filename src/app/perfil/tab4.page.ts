@@ -70,45 +70,45 @@ export class Tab4Page implements OnInit {
 
     
 
-    // Función para guardar la imagen de perfil
-    async guardarfotoperfil() {
-      if (this.profilePic) {
-        const auth = getAuth();
-        const user = auth.currentUser;
-        if (user) {
-          const storage = getStorage();
-          const filePath = `profilePictures/${user.uid}`;
-          const fileRef = ref(storage, filePath);
+    // // Función para guardar la imagen de perfil
+    // async guardarfotoperfil() {
+    //   if (this.profilePic) {
+    //     const auth = getAuth();
+    //     const user = auth.currentUser;
+    //     if (user) {
+    //       const storage = getStorage();
+    //       const filePath = `profilePictures/${user.uid}`;
+    //       const fileRef = ref(storage, filePath);
     
-          // Sube la imagen a Firebase Storage
-          await uploadBytes(fileRef, this.profilePic);
+    //       // Sube la imagen a Firebase Storage
+    //       await uploadBytes(fileRef, this.profilePic);
     
-          // Obtiene la URL de descarga
-          const photoURL = await getDownloadURL(fileRef);
+    //       // Obtiene la URL de descarga
+    //       const photoURL = await getDownloadURL(fileRef);
     
-          // Actualiza Firestore con la URL de la nueva foto de perfil
-          await this.actualizarfotoperfil(photoURL);
-          alert("Foto de perfil actualizada correctamente.");
-        } else {
-          alert("No hay un usuario autenticado.");
-        }
-      } else {
-        alert("Por favor selecciona una imagen primero.");
-      }
-    }
+    //       // Actualiza Firestore con la URL de la nueva foto de perfil
+    //       await this.actualizarfotoperfil(photoURL);
+    //       alert("Foto de perfil actualizada correctamente.");
+    //     } else {
+    //       alert("No hay un usuario autenticado.");
+    //     }
+    //   } else {
+    //     alert("Por favor selecciona una imagen primero.");
+    //   }
+    // }
     
 
-    // Función para actualizar la URL en Firestore
-    private async actualizarfotoperfil(photoURL: string) {
-      const auth = getAuth();
-      const user = auth.currentUser;
-      if (user) {
-        const userDoc = doc(this.firestore, `users/${user.uid}`);
-        await updateDoc(userDoc, { photoURL });
-      } else {
-        console.error("No hay un usuario autenticado.");
-      }
-    }
+    // // Función para actualizar la URL en Firestore
+    // private async actualizarfotoperfil(photoURL: string) {
+    //   const auth = getAuth();
+    //   const user = auth.currentUser;
+    //   if (user) {
+    //     const userDoc = doc(this.firestore, `users/${user.uid}`);
+    //     await updateDoc(userDoc, { photoURL });
+    //   } else {
+    //     console.error("No hay un usuario autenticado.");
+    //   }
+    // }
     
   }
   

@@ -18,11 +18,6 @@ export class RegistrarService {
     private Firestore: Firestore) 
     { }
 
-  // Método para registrar dueño de mascota
-  registrarDueño(datosDueño: any) {
-    return this.firestore.collection('Dueño_Mascota').add(datosDueño);
-  }
-
   // Método para registrar mascota
   registrarMascota(datosMascota: any) {
     return this.firestore.collection('Mascota').add(datosMascota);
@@ -62,11 +57,6 @@ export class RegistrarService {
   // Metodo para eliminar una cita ya registrada en la coleccion de 'Cita'
   deleteCita(id: string): Promise<void> {
     return this.firestore.collection('Cita').doc(id).delete();
-  }
-
-  // Metodo para editar una cita ya registrada en la coleccion de 'Cita'
-  editCita(id: string, data: any): Promise<void> {
-    return this.firestore.collection('Cita').doc(id).update(data);
   }
   
 
