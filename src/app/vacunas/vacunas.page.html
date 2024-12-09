@@ -19,11 +19,12 @@
     </ion-card-header>
     <ion-card-content>
       Fecha de aplicación: {{ vacuna.fecha_aplicacion}} <br />
-
       Descripción: {{ vacuna.descripcion }} <br />
-      
       Duración: {{ vacuna.duracion }} <br />
+
     </ion-card-content>
+
+    <ion-button (click)="deleteVacuna(vacuna.id)" color="danger" >Eliminar vacuna</ion-button>
   </ion-card>
 </ion-list>
 
@@ -55,15 +56,15 @@
           </ion-select>
         </ion-item>
 
-        <ion-item *ngIf="vacunaSeleccionada" >
+        <ion-item *ngIf="vacunaSeleccionada">
           <ion-label>
             <strong>Descripción:</strong> {{ vacunaSeleccionada.Descripcion }}
           </ion-label>
         </ion-item>
 
-        <ion-item *ngIf="vacunaSeleccionada" >
+        <ion-item *ngIf="vacunaSeleccionada">
           <ion-label>
-            <strong>Duración:</strong> {{ vacunaSeleccionada.Duracion }}
+            <strong>Duracion:</strong> {{ vacunaSeleccionada.Duracion }}
           </ion-label>
         </ion-item>
 

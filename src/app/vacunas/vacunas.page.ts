@@ -180,4 +180,12 @@ export class VacunasPage implements OnInit {
     this.vacunaData.duracion = this.vacunaSeleccionada.Duracion;
   }
 
+  async deleteVacuna(id: string) {
+    this.RegistrarService.eliminarVacuna(id).then(() => {
+      console.log('Vacuna eliminada exitosamente');
+    }).catch(error => {
+      console.error('Error al eliminar la Vacuna:', error);
+    });
+  }
+
 }

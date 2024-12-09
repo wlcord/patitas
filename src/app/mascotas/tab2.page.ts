@@ -89,6 +89,8 @@ export class Tab2Page implements OnInit {
 
   
 
+  
+
   //Función para actualizar las razas de las mascotas al momento de registrar
   actualizarRazas() {
     if (this.Mascota.Especie === 'Perro') {
@@ -122,22 +124,20 @@ export class Tab2Page implements OnInit {
     });
   }
 
-  viewVacunas(mascotaRut: string) {
+  verVacunas(mascotaRut: string) {
     // Redirige a la pagina de vacunas
     this.router.navigate([`/vacunas`, mascotaRut]);
   }
 
-  RegistrarCita(mascota: string) {
+  verCita(mascota: string) {
     this.router.navigate([`/citas`, mascota]);
   }
 
-  // deleteMascota(idmascota:string): void {
-  //   this.RegistrarService.eliminarMascota(idmascota).then(() => {
-  //     console.log('Mascota eliminada exitosamente')
-
-      
-  //   }).catch(error => {
-  //     console.log('Error al eliminar la mascota', error)
-  //   });
-  // }
+  async deleteMascota(id: string) {
+    this.RegistrarService.eliminarMascota(id).then(() => {
+      console.log('Mascota eliminada exitosamente');
+    }).catch(error => {
+      console.error('Error al eliminar la mascota:', error);
+    });
+  }
 }

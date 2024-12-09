@@ -23,10 +23,10 @@ export class RegistrarService {
     return this.firestore.collection('Mascota').add(datosMascota);
   }
 
-  //Metodo para eliminar el registro de una mascota
-  eliminarMascota(idMascota: string): Promise<void> {
-    return this.firestore.collection('Mascota').doc(idMascota).delete();
+  async eliminarMascota(id: string) {
+    return this.firestore.collection('Mascota').doc(id).delete();
   }
+  
 
   // Obtener vacunas por rut de mascota
   obtenerVacunas(rutMascota: string) {
@@ -39,7 +39,11 @@ export class RegistrarService {
     return this.firestore.collection('Vacuna').add(datosVacuna);
   }
 
-  //Citas
+  async eliminarVacuna(id: string) {
+    return this.firestore.collection('Vacuna').doc(id).delete();
+  }
+
+  //Receta
 
   // Metodo para guardar los datos extraidos con el OCR de la camara en una coleccion de Firestore
   async guardarDatosenColeccion(collectionName: string, data: any): Promise<void> {
@@ -53,9 +57,10 @@ export class RegistrarService {
       .snapshotChanges();
   }
   
+  //Citas
 
   // Metodo para eliminar una cita ya registrada en la coleccion de 'Cita'
-  deleteCita(id: string): Promise<void> {
+  async deleteCita(id: string) {
     return this.firestore.collection('Cita').doc(id).delete();
   }
   

@@ -84,7 +84,7 @@ export class CitasPage implements OnInit , OnDestroy{
         .collection('Cita', (ref) =>
           ref.where('mascotaId', '==', rutMascota) // Filtra por el RUT de la mascota
         )
-        .valueChanges({ idField: 'Rut_mascota' });
+        .valueChanges({ idField: 'id' });
   
       if (citasObservable) {
         citasObservable.subscribe((data) => {
@@ -128,11 +128,11 @@ export class CitasPage implements OnInit , OnDestroy{
     }
   }
   
-  deleteCita(id: string): void {
+  async deleteCita(id: string) {
     this.registrarservice.deleteCita(id).then(() => {
       console.log('Cita eliminada exitosamente');
       // Actualiza la lista de citas si es necesario
-      this.obtenerCitas(id);
+      this.obtenerCitas(this.mascotaId);
     }).catch(error => {
       console.error('Error al eliminar la cita:', error);
     });
