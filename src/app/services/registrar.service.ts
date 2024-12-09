@@ -56,6 +56,10 @@ export class RegistrarService {
       .collection('Recetas', ref => ref.where('rut', '==', rutUsuario))
       .snapshotChanges();
   }
+
+  async eliminarReceta(id: string) {
+    return this.firestore.collection('Recetas').doc(id).delete();
+  }
   
   //Citas
 

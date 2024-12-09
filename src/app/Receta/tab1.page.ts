@@ -38,7 +38,14 @@ export class Tab1Page implements OnInit{
           }
         })
       });
-    
+  }
+
+  async deleteReceta(id: string) {
+    this.firebaseService.eliminarReceta(id).then(() => {
+      console.log('Receta eliminada exitosamente');
+    }).catch(error => {
+      console.error('Error al eliminar la Receta:', error);
+    });
   }
 
 }

@@ -24,6 +24,8 @@
       <p>Diagnostico: {{ recetas.diagnostico }}</p>
       <p>Rp: {{ recetas.rp }}</p>
     </ion-card-content>
+
+    <ion-button (click)="deleteReceta(recetas.id)" color="danger" >Eliminar Receta</ion-button>
   </ion-card>
 </ion-content>
 

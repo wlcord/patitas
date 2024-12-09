@@ -66,6 +66,7 @@ export class Tab2Page implements OnInit {
         userDataObservable.subscribe((data) => {
           this.usuario = data;
           localStorage.setItem('Nombre', this.usuario.nombre);
+          localStorage.setItem('Rut', this.usuario.rut);
           console.log('Datos del usuario:', this.usuario);
         });
       }
